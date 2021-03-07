@@ -28,21 +28,22 @@ func main() {
 
 	mongoClient := db.Connect()
 
-	log.Print(mongoClient)
 	envErr := godotenv.Load()
 	if envErr != nil {
 		log.Fatal("Error loading .env file")
 	}
 	botUser := os.Getenv("TWITCH_USER")
-	botPass := os.Getenv("TWITCH_PASS")
+	botPass := os.Getenv("TWITCH_PASSWORD")
 
 	Nourybot = &Bot{
 		Client:   twitch.NewClient(botUser, botPass),
+		Mongo:    mongoClient,
 		Channels: channels,
 	}
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
+	// log.Print(mongoClient)
 	err := Nourybot.Client.Connect()
 
 	if err != nil {
