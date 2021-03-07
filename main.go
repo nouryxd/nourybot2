@@ -15,6 +15,13 @@ var channels = map[string]*Channel{
 	"nrybot":  {Name: "nrybot"},
 }
 
+func connectToChannels() {
+	for i := range channels {
+		Nourybot.Client.Join(i)
+		Nourybot.Client.Say(i, "FeelsDankMan")
+	}
+}
+
 func main() {
 	envErr := godotenv.Load()
 	if envErr != nil {
@@ -23,21 +30,15 @@ func main() {
 	botUser := os.Getenv("TWITCH_USER")
 	botPass := os.Getenv("TWITCH_PASSWORD")
 	// or client := twitch.NewAnonymousClient() for an anonymous user (no write capabilities)
-	client := twitch.NewClient(botUser, botPass)
 
-	client.OnPrivateMessage(func(message twitch.PrivateMessage) {
-		fmt.Println(message.Message)
-		if message.Message == "FeelsDankMan TeaTime" {
-			client.Say("nouryqt", "pajaDink")
-		}
-	})
+	Nourybot = &Bot{
+		Client:   twitch.NewClient(botUser, botPass),
+		Channels: channels,
+	}
 
-	client.Say("nouryqt", "pajaDink")
+	err := Nourybot.Client.Connect()
 
-	client.Join("nouryqt")
-
-	err := client.Connect()
 	if err != nil {
-		panic(err)
+		log.Fatalln(err.Error())
 	}
 }
