@@ -7,6 +7,7 @@ import (
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/joho/godotenv"
 	. "github.com/lyx0/nourybot-go/bot"
+	db "github.com/lyx0/nourybot-go/mongo"
 )
 
 var channels = map[string]*Channel{
@@ -24,12 +25,16 @@ func connectToChannels() {
 
 func main() {
 	log.Println("Starting")
+
+	mongoClient := db.Connect()
+
+	log.Print(mongoClient)
 	envErr := godotenv.Load()
 	if envErr != nil {
 		log.Fatal("Error loading .env file")
 	}
 	botUser := os.Getenv("TWITCH_USER")
-	botPass := os.Getenv("TWITCH_PASSWORD")
+	botPass := os.Getenv("TWITCH_PASS")
 
 	Nourybot = &Bot{
 		Client:   twitch.NewClient(botUser, botPass),
@@ -38,7 +43,6 @@ func main() {
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
-
 	err := Nourybot.Client.Connect()
 
 	if err != nil {
