@@ -22,6 +22,10 @@ func connectToChannels() {
 	}
 }
 
+//func (c *Client) OnConnect(callback func()) {
+//	SendTwitchMessage("nouryqt", "hehe")
+//}
+
 func main() {
 	envErr := godotenv.Load()
 	if envErr != nil {
@@ -41,4 +45,6 @@ func main() {
 	if err != nil {
 		log.Fatalln(err.Error())
 	}
+	i
+
 }
