@@ -18,7 +18,8 @@ var channels = map[string]*Channel{
 func connectToChannels() {
 	for i := range channels {
 		Nourybot.Client.Join(i)
-		Nourybot.Client.Say(i, "FeelsDankMan")
+		SendTwitchMessage(i, "FeelsDankMan")
+		//	Nourybot.Client.Say(i, "FeelsDankMan")
 		log.Printf("Connected to channel: %v\n", i)
 	}
 }
