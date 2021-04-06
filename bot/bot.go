@@ -10,6 +10,7 @@ type Bot struct {
 	Mongo    *mongo.Client
 	Channels map[string]*Channel
 	Commands map[string]*Command
+	UserID string
 }
 
 type Channel struct {
@@ -30,6 +31,10 @@ var (
 func SendTwitchMessage(target string, message string) {
 	if len(message) == 0 {
 		return
+	}
+
+	if message[0] == '.' || message[0] == '/' {
+		message = ". " + message
 	}
 
 	Nourybot.Client.Say(target, message)
