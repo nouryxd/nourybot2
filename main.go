@@ -18,6 +18,7 @@ var channels = map[string]*Channel{
 	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
 	"xnoury":               {Name: "xnoury"},
 	"nrybot":               {Name: "nrybot"},
+	// "noemience":            {Name: "noemience"},
 }
 
 func connectToChannels() {
