@@ -29,6 +29,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				SendTwitchMessage(message.Channel, "Why yes, that's my prefix :)")
 			}
 			return
+
 		case "ping":
 			SendTwitchMessage(message.Channel, "Pong!")
 
@@ -40,6 +41,15 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 		case "ffz":
 			SendTwitchMessage(message.Channel, ffzUrl+message.Message[6:len(message.Message)])
+
+		case "myid":
+			SendTwitchMessage(message.Channel, message.User.ID)
+
+		case "pingme":
+			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
+
+		case "color":
+			SendTwitchMessage(message.Channel, message.User.Color)
 		}
 	}
 }
