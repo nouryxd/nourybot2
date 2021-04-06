@@ -10,7 +10,7 @@ type Bot struct {
 	Mongo    *mongo.Client
 	Channels map[string]*Channel
 	Commands map[string]*Command
-	UserID string
+	UserID   string
 }
 
 type Channel struct {
