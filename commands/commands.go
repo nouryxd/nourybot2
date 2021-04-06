@@ -12,6 +12,7 @@ const (
 	ffzUrl  = "https://www.frankerfacez.com/emoticons/?q="
 )
 
+
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 	if message.Message[:2] == "()" {
 		// Split the first 3 characters off of the message, () and space
@@ -48,8 +49,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 		case "pingme":
 			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
+		case "mycolor":
+			SendTwitchMessage(message.Channel, "@"+ message.User.DisplayName + " your color is " + message.User.Color)
+
 		case "color":
-			SendTwitchMessage(message.Channel, message.User.Color)
+			SendTwitchMessage(message.Channel, "@"+ message.User.DisplayName + " your color is " + message.User.Color)
 		}
 	}
 }
