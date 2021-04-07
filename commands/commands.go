@@ -81,7 +81,7 @@ func CheckFfzEmotes(channel string) {
 }
 
 func CheckEightBall(channel string) {
-	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/misc/8ball"))
+	resp, err := http.Get("https://customapi.aidenwallis.co.uk/api/v1/misc/8ball")
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -126,6 +126,54 @@ func CheckGame(channel string, name string) {
 	}
 
 	SendTwitchMessage(channel, fmt.Sprintf("%s is playing %s right now", name, string(body)))
+}
+
+func CheckTitle(channel string, name string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/title", name))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, fmt.Sprintf(string(body)))
+}
+
+func CheckUserId(channel string, name string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/toID/%s", name))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, fmt.Sprintf(string(body)))
+}
+
+func CheckCoinFlip(channel string) {
+	resp, err := http.Get("https://customapi.aidenwallis.co.uk/api/v1/misc/coinflip")
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, string(body))
 }
 
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
@@ -215,12 +263,30 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			} else {
 				CheckUptime(message.Channel, message.Message[9:len(message.Message)])
 			}
+
 		case "game":
 			if msgLen == 1 {
 				CheckGame(message.Channel, message.Channel)
 			} else {
 				CheckGame(message.Channel, message.Message[7:len(message.Message)])
 			}
+
+		case "title":
+			if msgLen == 1 {
+				CheckTitle(message.Channel, message.Channel)
+			} else {
+				CheckTitle(message.Channel, message.Message[8:len(message.Message)])
+			}
+
+		case "uid":
+			if msgLen == 1 {
+				SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
+			} else {
+				CheckUserId(message.Channel, message.Message[6:len(message.Message)])
+			}
+		case "coinflip":
+			CheckCoinFlip(message.Channel)
+
 		}
 	}
 }
