@@ -194,37 +194,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			}
 			return
 
-		case "ping":
-			SendTwitchMessage(message.Channel, "Pong!")
+		case "8ball":
+			CheckEightBall(message.Channel)
 
 		case "bot":
 			SendTwitchMessage(message.Channel, "Any fellow bots in chat? MrDestructoid 7")
-
-		case "bttv":
-			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, bttvUrl+message.Message[7:len(message.Message)])
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
-			}
-
-		case "ffz":
-			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, ffzUrl+message.Message[6:len(message.Message)])
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
-			}
-
-		case "myid":
-			SendTwitchMessage(message.Channel, message.User.ID)
-
-		case "pingme":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
-
-		case "mycolor":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
-
-		case "color":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
 
 		case "botstatus":
 			if msgLen == 1 {
@@ -233,11 +207,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				CheckBotStatus(message.Channel, message.Message[12:len(message.Message)])
 			}
 
-		case "weather":
-			if msgLen == 1 {
-				SendTwitchMessage(message.Channel, "Usage: ()weather location")
+		case "bttv":
+			if msgLen == 2 {
+				SendTwitchMessage(message.Channel, bttvUrl+message.Message[7:len(message.Message)])
 			} else {
-				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
+				SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
 			}
 
 		case "bttvemotes":
@@ -247,21 +221,27 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
 			}
 
+		case "color":
+			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+
+		case "commands":
+			SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
+
+		case "coinflip":
+			CheckCoinFlip(message.Channel)
+
+		case "ffz":
+			if msgLen == 2 {
+				SendTwitchMessage(message.Channel, ffzUrl+message.Message[6:len(message.Message)])
+			} else {
+				SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
+			}
+
 		case "ffzemotes":
 			if msgLen == 1 {
 				CheckFfzEmotes(message.Channel)
 			} else {
 				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
-			}
-
-		case "8ball":
-			CheckEightBall(message.Channel)
-
-		case "uptime":
-			if msgLen == 1 {
-				CheckUptime(message.Channel, message.Channel)
-			} else {
-				CheckUptime(message.Channel, message.Message[9:len(message.Message)])
 			}
 
 		case "game":
@@ -271,12 +251,17 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				CheckGame(message.Channel, message.Message[7:len(message.Message)])
 			}
 
-		case "title":
-			if msgLen == 1 {
-				CheckTitle(message.Channel, message.Channel)
-			} else {
-				CheckTitle(message.Channel, message.Message[8:len(message.Message)])
-			}
+		case "mycolor":
+			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+
+		case "myid":
+			SendTwitchMessage(message.Channel, message.User.ID)
+
+		case "ping":
+			SendTwitchMessage(message.Channel, "Pong!")
+
+		case "pingme":
+			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
 		case "uid":
 			if msgLen == 1 {
@@ -284,9 +269,27 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			} else {
 				CheckUserId(message.Channel, message.Message[6:len(message.Message)])
 			}
-		case "coinflip":
-			CheckCoinFlip(message.Channel)
 
+		case "title":
+			if msgLen == 1 {
+				CheckTitle(message.Channel, message.Channel)
+			} else {
+				CheckTitle(message.Channel, message.Message[8:len(message.Message)])
+			}
+
+		case "uptime":
+			if msgLen == 1 {
+				CheckUptime(message.Channel, message.Channel)
+			} else {
+				CheckUptime(message.Channel, message.Message[9:len(message.Message)])
+			}
+
+		case "weather":
+			if msgLen == 1 {
+				SendTwitchMessage(message.Channel, "Usage: ()weather location")
+			} else {
+				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
+			}
 		}
 	}
 }
