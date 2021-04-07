@@ -64,6 +64,70 @@ func CheckBttvEmotes(channel string) {
 	SendTwitchMessage(channel, string(body))
 }
 
+func CheckFfzEmotes(channel string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/emotes/%s/ffz", channel))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, string(body))
+}
+
+func CheckEightBall(channel string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/misc/8ball"))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, string(body))
+}
+
+func CheckUptime(channel string, name string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/uptime", name))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, string(body))
+}
+
+func CheckGame(channel string, name string) {
+	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/game?steamGame=1", name))
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	SendTwitchMessage(channel, fmt.Sprintf("%s is playing %s right now", name, string(body)))
+}
+
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 	if message.Message[:2] == "()" {
 		// Split the first 3 characters off of the message, () and space
@@ -120,17 +184,42 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			} else {
 				CheckBotStatus(message.Channel, message.Message[12:len(message.Message)])
 			}
+
 		case "weather":
 			if msgLen == 1 {
 				SendTwitchMessage(message.Channel, "Usage: ()weather location")
 			} else {
 				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
 			}
+
 		case "bttvemotes":
 			if msgLen == 1 {
 				CheckBttvEmotes(message.Channel)
 			} else {
-				SendTwitchMessage(message.Channel, "Only works for the current channel")
+				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
+			}
+
+		case "ffzemotes":
+			if msgLen == 1 {
+				CheckFfzEmotes(message.Channel)
+			} else {
+				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
+			}
+
+		case "8ball":
+			CheckEightBall(message.Channel)
+
+		case "uptime":
+			if msgLen == 1 {
+				CheckUptime(message.Channel, message.Channel)
+			} else {
+				CheckUptime(message.Channel, message.Message[9:len(message.Message)])
+			}
+		case "game":
+			if msgLen == 1 {
+				CheckGame(message.Channel, message.Channel)
+			} else {
+				CheckGame(message.Channel, message.Message[7:len(message.Message)])
 			}
 		}
 	}
