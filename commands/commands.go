@@ -241,7 +241,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			if msgLen == 1 {
 				CheckFfzEmotes(message.Channel)
 			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
+				SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
 			}
 
 		case "game":

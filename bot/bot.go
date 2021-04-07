@@ -37,5 +37,10 @@ func SendTwitchMessage(target string, message string) {
 		message = ". " + message
 	}
 
+	if len(message) > 247 {
+		message = message[0:247]
+
+	}
+
 	Nourybot.Client.Say(target, message)
 }
