@@ -2,6 +2,8 @@
 
 Lidl Twitch Bot in development
 
+Commands: [here]https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969)
+
 ### Build it with Docker
 
 ```
