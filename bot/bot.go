@@ -19,9 +19,9 @@ type Channel struct {
 }
 
 type Command struct {
-	Name        string
-	Permissions int
-	Run         func(msg twitch.PrivateMessage, args []string)
+	Name string
+	// Permissions int
+	Run func(msg twitch.PrivateMessage, args []string)
 }
 
 var (

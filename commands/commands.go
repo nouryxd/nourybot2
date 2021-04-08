@@ -16,6 +16,7 @@ const (
 	ffzUrl  = "https://www.frankerfacez.com/emoticons/?q="
 )
 
+// customapi.aidenwallis.co.uk
 func CheckBotStatus(channel string, userName string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/botStatus/%s?includeLimits=1", userName))
 	if err != nil {
@@ -125,7 +126,7 @@ func CheckGame(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprintf("%s is playing %s right now", name, string(body)))
+	SendTwitchMessage(channel, fmt.Sprintf("%s current game is: %s", name, string(body)))
 }
 
 func CheckTitle(channel string, name string) {
@@ -176,10 +177,26 @@ func CheckCoinFlip(channel string) {
 	SendTwitchMessage(channel, string(body))
 }
 
+// // api.ivr.fi
+// const (
+// 	apiIvr = "https://api.ivr.fi/twitch/"
+// )
+
+// func CheckSubage(channel string, param1 string, param2 string) {
+// 	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/twitch/subage/%s/%s/", param1, param2))
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+
+// 	defer resp.Body.Close()
+// 	fmt.Println(resp.Body)
+// }
+
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 	if message.Message[:2] == "()" {
 		// Split the first 3 characters off of the message, () and space
 		commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
+		cmdParams := strings.SplitN(message.Message, " ", 3)
 
 		// Check how many characters the message contains.
 		msgLen := len(strings.SplitN(message.Message, " ", -2))
@@ -194,6 +211,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			}
 			return
 
+		// case "subage":
+		// 	CheckSubage(message.Channel, cmdParams[1], cmdParams[2])
+		// 	fmt.Println(cmdParams[1])
+		// 	fmt.Println(cmdParams[2])
+
 		case "8ball":
 			CheckEightBall(message.Channel)
 
@@ -204,12 +226,12 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			if msgLen == 1 {
 				SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
 			} else {
-				CheckBotStatus(message.Channel, message.Message[12:len(message.Message)])
+				CheckBotStatus(message.Channel, cmdParams[1])
 			}
 
 		case "bttv":
 			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, bttvUrl+message.Message[7:len(message.Message)])
+				SendTwitchMessage(message.Channel, bttvUrl+cmdParams[1])
 			} else {
 				SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
 			}
@@ -232,7 +254,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 		case "ffz":
 			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, ffzUrl+message.Message[6:len(message.Message)])
+				SendTwitchMessage(message.Channel, ffzUrl+cmdParams[1])
 			} else {
 				SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
 			}
@@ -248,7 +270,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			if msgLen == 1 {
 				CheckGame(message.Channel, message.Channel)
 			} else {
-				CheckGame(message.Channel, message.Message[7:len(message.Message)])
+				CheckGame(message.Channel, cmdParams[1])
 			}
 
 		case "mycolor":
@@ -258,7 +280,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			SendTwitchMessage(message.Channel, message.User.ID)
 
 		case "ping":
-			SendTwitchMessage(message.Channel, "Pong!")
+			SendTwitchMessage(message.Channel, "Pong! :)")
 
 		case "pingme":
 			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
@@ -267,21 +289,21 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			if msgLen == 1 {
 				SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
 			} else {
-				CheckUserId(message.Channel, message.Message[6:len(message.Message)])
+				CheckUserId(message.Channel, cmdParams[1])
 			}
 
 		case "title":
 			if msgLen == 1 {
 				CheckTitle(message.Channel, message.Channel)
 			} else {
-				CheckTitle(message.Channel, message.Message[8:len(message.Message)])
+				CheckTitle(message.Channel, cmdParams[1])
 			}
 
 		case "uptime":
 			if msgLen == 1 {
 				CheckUptime(message.Channel, message.Channel)
 			} else {
-				CheckUptime(message.Channel, message.Message[9:len(message.Message)])
+				CheckUptime(message.Channel, cmdParams[1])
 			}
 
 		case "weather":
@@ -290,6 +312,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			} else {
 				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
 			}
+
 		}
 	}
 }
