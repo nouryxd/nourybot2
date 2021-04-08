@@ -142,7 +142,7 @@ func CheckTitle(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprintf(string(body)))
+	SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
 func CheckUserId(channel string, name string) {
@@ -158,7 +158,7 @@ func CheckUserId(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprintf(string(body)))
+	SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
 func CheckCoinFlip(channel string) {
@@ -176,21 +176,6 @@ func CheckCoinFlip(channel string) {
 
 	SendTwitchMessage(channel, string(body))
 }
-
-// // api.ivr.fi
-// const (
-// 	apiIvr = "https://api.ivr.fi/twitch/"
-// )
-
-// func CheckSubage(channel string, param1 string, param2 string) {
-// 	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/twitch/subage/%s/%s/", param1, param2))
-// 	if err != nil {
-// 		log.Fatalln(err)
-// 	}
-
-// 	defer resp.Body.Close()
-// 	fmt.Println(resp.Body)
-// }
 
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 	if message.Message[:2] == "()" {
@@ -211,16 +196,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			}
 			return
 
-		// case "subage":
-		// 	CheckSubage(message.Channel, cmdParams[1], cmdParams[2])
-		// 	fmt.Println(cmdParams[1])
-		// 	fmt.Println(cmdParams[2])
-
 		case "8ball":
 			CheckEightBall(message.Channel)
 
 		case "bot":
-			SendTwitchMessage(message.Channel, "Any fellow bots in chat? MrDestructoid 7")
+			SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
 
 		case "botstatus":
 			if msgLen == 1 {
@@ -251,6 +231,11 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 		case "coinflip":
 			CheckCoinFlip(message.Channel)
+
+		case "echo":
+			if message.User.ID == "31437432" {
+				SendTwitchMessage(message.Channel, message.Message[7:(len(message.Message))])
+			}
 
 		case "ffz":
 			if msgLen == 2 {
@@ -312,7 +297,6 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			} else {
 				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
 			}
-
 		}
 	}
 }
