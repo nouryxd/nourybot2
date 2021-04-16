@@ -26,7 +26,7 @@ func connectToChannels() {
 		Nourybot.Client.Join(i)
 		log.Printf("Connected to channel: %v\n", i)
 	}
-	// SendTwitchMessage("nouryqt", "pajaDink")
+	SendTwitchMessage("nouryqt", "pajaDink")
 	SendTwitchMessage("nourybot", ":)")
 	SendTwitchMessage("nrybot", ":)")
 	SendTwitchMessage("uudelleenkytkeytynyt", ":)")
