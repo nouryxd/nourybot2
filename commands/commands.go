@@ -178,124 +178,127 @@ func CheckCoinFlip(channel string) {
 }
 
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
-	if message.Message[:2] == "()" {
-		// Split the first 3 characters off of the message, () and space
-		commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
-		cmdParams := strings.SplitN(message.Message, " ", 3)
+	if len(message.Message) > 2 {
 
-		// Check how many characters the message contains.
-		msgLen := len(strings.SplitN(message.Message, " ", -2))
+		if message.Message[:2] == "()" {
+			// Split the first 3 characters off of the message, () and space
+			commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
+			cmdParams := strings.SplitN(message.Message, " ", 3)
 
-		fmt.Printf("%v\n", msgLen)
+			// Check how many characters the message contains.
+			msgLen := len(strings.SplitN(message.Message, " ", -2))
 
-		// If message starts with () and contains a command afterwards, handle the command.
-		switch commandName {
-		case "":
-			if msgLen == 1 {
-				SendTwitchMessage(message.Channel, "Why yes, that's my prefix :)")
-			}
-			return
+			fmt.Printf("%v\n", msgLen)
 
-		case "8ball":
-			CheckEightBall(message.Channel)
+			// If message starts with () and contains a command afterwards, handle the command.
+			switch commandName {
+			case "":
+				if msgLen == 1 {
+					SendTwitchMessage(message.Channel, "Why yes, that's my prefix :)")
+				}
+				return
 
-		case "bot":
-			SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
+			case "8ball":
+				CheckEightBall(message.Channel)
 
-		case "botstatus":
-			if msgLen == 1 {
-				SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
-			} else {
-				CheckBotStatus(message.Channel, cmdParams[1])
-			}
+			case "bot":
+				SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
 
-		case "bttv":
-			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, bttvUrl+cmdParams[1])
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
-			}
+			case "botstatus":
+				if msgLen == 1 {
+					SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
+				} else {
+					CheckBotStatus(message.Channel, cmdParams[1])
+				}
 
-		case "bttvemotes":
-			if msgLen == 1 {
-				CheckBttvEmotes(message.Channel)
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
-			}
+			case "bttv":
+				if msgLen == 2 {
+					SendTwitchMessage(message.Channel, bttvUrl+cmdParams[1])
+				} else {
+					SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
+				}
 
-		case "color":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+			case "bttvemotes":
+				if msgLen == 1 {
+					CheckBttvEmotes(message.Channel)
+				} else {
+					SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
+				}
 
-		case "commands":
-			SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
+			case "color":
+				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
 
-		case "coinflip":
-			CheckCoinFlip(message.Channel)
+			case "commands":
+				SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
 
-		case "echo":
-			if message.User.ID == "31437432" {
-				SendTwitchMessage(message.Channel, message.Message[7:(len(message.Message))])
-			}
+			case "coinflip":
+				CheckCoinFlip(message.Channel)
 
-		case "ffz":
-			if msgLen == 2 {
-				SendTwitchMessage(message.Channel, ffzUrl+cmdParams[1])
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
-			}
+			case "echo":
+				if message.User.ID == "31437432" {
+					SendTwitchMessage(message.Channel, message.Message[7:(len(message.Message))])
+				}
 
-		case "ffzemotes":
-			if msgLen == 1 {
-				CheckFfzEmotes(message.Channel)
-			} else {
-				SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
-			}
+			case "ffz":
+				if msgLen == 2 {
+					SendTwitchMessage(message.Channel, ffzUrl+cmdParams[1])
+				} else {
+					SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
+				}
 
-		case "game":
-			if msgLen == 1 {
-				CheckGame(message.Channel, message.Channel)
-			} else {
-				CheckGame(message.Channel, cmdParams[1])
-			}
+			case "ffzemotes":
+				if msgLen == 1 {
+					CheckFfzEmotes(message.Channel)
+				} else {
+					SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
+				}
 
-		case "mycolor":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+			case "game":
+				if msgLen == 1 {
+					CheckGame(message.Channel, message.Channel)
+				} else {
+					CheckGame(message.Channel, cmdParams[1])
+				}
 
-		case "myid":
-			SendTwitchMessage(message.Channel, message.User.ID)
+			case "mycolor":
+				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
 
-		case "ping":
-			SendTwitchMessage(message.Channel, "Pong! :)")
+			case "myid":
+				SendTwitchMessage(message.Channel, message.User.ID)
 
-		case "pingme":
-			SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
+			case "ping":
+				SendTwitchMessage(message.Channel, "Pong! :)")
 
-		case "uid":
-			if msgLen == 1 {
-				SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
-			} else {
-				CheckUserId(message.Channel, cmdParams[1])
-			}
+			case "pingme":
+				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
-		case "title":
-			if msgLen == 1 {
-				CheckTitle(message.Channel, message.Channel)
-			} else {
-				CheckTitle(message.Channel, cmdParams[1])
-			}
+			case "uid":
+				if msgLen == 1 {
+					SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
+				} else {
+					CheckUserId(message.Channel, cmdParams[1])
+				}
 
-		case "uptime":
-			if msgLen == 1 {
-				CheckUptime(message.Channel, message.Channel)
-			} else {
-				CheckUptime(message.Channel, cmdParams[1])
-			}
+			case "title":
+				if msgLen == 1 {
+					CheckTitle(message.Channel, message.Channel)
+				} else {
+					CheckTitle(message.Channel, cmdParams[1])
+				}
 
-		case "weather":
-			if msgLen == 1 {
-				SendTwitchMessage(message.Channel, "Usage: ()weather location")
-			} else {
-				CheckWeather(message.Channel, message.Message[9:len(message.Message)])
+			case "uptime":
+				if msgLen == 1 {
+					CheckUptime(message.Channel, message.Channel)
+				} else {
+					CheckUptime(message.Channel, cmdParams[1])
+				}
+
+			case "weather":
+				if msgLen == 1 {
+					SendTwitchMessage(message.Channel, "Usage: ()weather location")
+				} else {
+					CheckWeather(message.Channel, message.Message[9:len(message.Message)])
+				}
 			}
 		}
 	}
