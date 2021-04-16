@@ -178,7 +178,7 @@ func CheckCoinFlip(channel string) {
 }
 
 func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
-	if len(message.Message) > 2 {
+	if len(message.Message) >= 2 {
 
 		if message.Message[:2] == "()" {
 			// Split the first 3 characters off of the message, () and space
