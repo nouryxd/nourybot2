@@ -8,17 +8,16 @@ import (
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/joho/godotenv"
 	. "github.com/lyx0/nourybot-go/bot"
-	. "github.com/lyx0/nourybot-go/commands"
 	db "github.com/lyx0/nourybot-go/mongo"
 )
 
 var channels = map[string]*Channel{
-	"nouryqt":              {Name: "nouryqt"},
-	"nourybot":             {Name: "nrybot"},
-	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-	"xnoury":               {Name: "xnoury"},
-	"nrybot":               {Name: "nrybot"},
-	"noemience":            {Name: "noemience"},
+	"nourybot": {Name: "nrybot"},
+	// "nouryqt":              {Name: "nouryqt"},
+	// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+	// "xnoury":               {Name: "xnoury"},
+	// "nrybot":               {Name: "nrybot"},
+	// "noemience":            {Name: "noemience"},
 }
 
 func connectToChannels() {
@@ -26,11 +25,11 @@ func connectToChannels() {
 		Nourybot.Client.Join(i)
 		log.Printf("Connected to channel: %v\n", i)
 	}
-	SendTwitchMessage("nouryqt", "pajaDink")
 	SendTwitchMessage("nourybot", ":)")
-	SendTwitchMessage("nrybot", ":)")
-	SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-	SendTwitchMessage("xnoury", "pajaDink")
+	// SendTwitchMessage("nouryqt", "pajaDink")
+	// SendTwitchMessage("nrybot", ":)")
+	// SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+	// SendTwitchMessage("xnoury", "pajaDink")
 }
 
 func main() {
@@ -49,7 +48,7 @@ func main() {
 		Client:   twitch.NewClient(botUser, botPass),
 		Mongo:    mongoClient,
 		Channels: channels,
-		// Commands: commands.initCommands(),
+		Commands: commands.initCommands(),
 	}
 
 	Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {
