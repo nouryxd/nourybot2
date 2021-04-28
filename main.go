@@ -13,7 +13,7 @@ import (
 )
 
 var channels = map[string]*bot.Channel{
-	"nourybot":             {Name: "nrybot"},
+	"nourybot":             {Name: "nourybot"},
 	"nouryqt":              {Name: "nouryqt"},
 	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
 	"xnoury":               {Name: "xnoury"},

@@ -17,7 +17,7 @@ const (
 )
 
 // customapi.aidenwallis.co.uk
-func CheckBotStatus(channel string, userName string) {
+func HandleBotStatus(channel string, userName string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/botStatus/%s?includeLimits=1", userName))
 	if err != nil {
 		log.Fatalln(err)
@@ -33,7 +33,7 @@ func CheckBotStatus(channel string, userName string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckWeather(channel string, location string) {
+func HandleWeather(channel string, location string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/misc/weather/%s", location))
 	if err != nil {
 		log.Fatalln(err)
@@ -49,7 +49,7 @@ func CheckWeather(channel string, location string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckBttvEmotes(channel string) {
+func HandleBttvEmotes(channel string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/emotes/%s/bttv", channel))
 	if err != nil {
 		log.Fatalln(err)
@@ -65,7 +65,7 @@ func CheckBttvEmotes(channel string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckFfzEmotes(channel string) {
+func HandleFfzEmotes(channel string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/emotes/%s/ffz", channel))
 	if err != nil {
 		log.Fatalln(err)
@@ -81,7 +81,7 @@ func CheckFfzEmotes(channel string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckEightBall(channel string) {
+func HandleEightBall(channel string) {
 	resp, err := http.Get("https://customapi.aidenwallis.co.uk/api/v1/misc/8ball")
 	if err != nil {
 		log.Fatalln(err)
@@ -97,7 +97,7 @@ func CheckEightBall(channel string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckUptime(channel string, name string) {
+func HandleUptime(channel string, name string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/uptime", name))
 	if err != nil {
 		log.Fatalln(err)
@@ -113,7 +113,7 @@ func CheckUptime(channel string, name string) {
 	SendTwitchMessage(channel, string(body))
 }
 
-func CheckGame(channel string, name string) {
+func HandleGame(channel string, name string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/game?steamGame=1", name))
 	if err != nil {
 		log.Fatalln(err)
@@ -129,7 +129,7 @@ func CheckGame(channel string, name string) {
 	SendTwitchMessage(channel, fmt.Sprintf("%s current game is: %s", name, string(body)))
 }
 
-func CheckTitle(channel string, name string) {
+func HandleTitle(channel string, name string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/channel/%s/title", name))
 	if err != nil {
 		log.Fatalln(err)
@@ -145,7 +145,7 @@ func CheckTitle(channel string, name string) {
 	SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
-func CheckUserId(channel string, name string) {
+func HandleUserId(channel string, name string) {
 	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/toID/%s", name))
 	if err != nil {
 		log.Fatalln(err)
@@ -161,7 +161,7 @@ func CheckUserId(channel string, name string) {
 	SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
-func CheckCoinFlip(channel string) {
+func HandleCoinFlip(channel string) {
 	resp, err := http.Get("https://customapi.aidenwallis.co.uk/api/v1/misc/coinflip")
 	if err != nil {
 		log.Fatalln(err)
@@ -185,7 +185,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
 			cmdParams := strings.SplitN(message.Message, " ", 3)
 
-			// Check how many characters the message contains.
+			// Handle how many characters the message contains.
 			msgLen := len(strings.SplitN(message.Message, " ", -2))
 
 			fmt.Printf("%v\n", msgLen)
@@ -199,7 +199,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				return
 
 			case "8ball":
-				CheckEightBall(message.Channel)
+				HandleEightBall(message.Channel)
 
 			case "bot":
 				SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
@@ -208,7 +208,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				if msgLen == 1 {
 					SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
 				} else {
-					CheckBotStatus(message.Channel, cmdParams[1])
+					HandleBotStatus(message.Channel, cmdParams[1])
 				}
 
 			case "bttv":
@@ -220,7 +220,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 			case "bttvemotes":
 				if msgLen == 1 {
-					CheckBttvEmotes(message.Channel)
+					HandleBttvEmotes(message.Channel)
 				} else {
 					SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
 				}
@@ -232,7 +232,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
 
 			case "coinflip":
-				CheckCoinFlip(message.Channel)
+				HandleCoinFlip(message.Channel)
 
 			case "echo":
 				if message.User.ID == "31437432" {
@@ -248,16 +248,16 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 			case "ffzemotes":
 				if msgLen == 1 {
-					CheckFfzEmotes(message.Channel)
+					HandleFfzEmotes(message.Channel)
 				} else {
 					SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
 				}
 
 			case "game":
 				if msgLen == 1 {
-					CheckGame(message.Channel, message.Channel)
+					HandleGame(message.Channel, message.Channel)
 				} else {
-					CheckGame(message.Channel, cmdParams[1])
+					HandleGame(message.Channel, cmdParams[1])
 				}
 
 			case "mycolor":
@@ -276,28 +276,28 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				if msgLen == 1 {
 					SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
 				} else {
-					CheckUserId(message.Channel, cmdParams[1])
+					HandleUserId(message.Channel, cmdParams[1])
 				}
 
 			case "title":
 				if msgLen == 1 {
-					CheckTitle(message.Channel, message.Channel)
+					HandleTitle(message.Channel, message.Channel)
 				} else {
-					CheckTitle(message.Channel, cmdParams[1])
+					HandleTitle(message.Channel, cmdParams[1])
 				}
 
 			case "uptime":
 				if msgLen == 1 {
-					CheckUptime(message.Channel, message.Channel)
+					HandleUptime(message.Channel, message.Channel)
 				} else {
-					CheckUptime(message.Channel, cmdParams[1])
+					HandleUptime(message.Channel, cmdParams[1])
 				}
 
 			case "weather":
 				if msgLen == 1 {
 					SendTwitchMessage(message.Channel, "Usage: ()weather location")
 				} else {
-					CheckWeather(message.Channel, message.Message[9:len(message.Message)])
+					HandleWeather(message.Channel, message.Message[9:len(message.Message)])
 				}
 			}
 		}
