@@ -1,8 +1,6 @@
 package bot
 
 import (
-	"time"
-
 	"github.com/gempir/go-twitch-irc/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -11,7 +9,6 @@ type Bot struct {
 	Client   *twitch.Client
 	Mongo    *mongo.Client
 	Channels map[string]*Channel
-	Commands map[string]*Command
 	UserID   string
 }
 
@@ -21,10 +18,8 @@ type Channel struct {
 }
 
 type Command struct {
-	Name        string
-	Permissions int
-	Cooldown    time.Duration
-	Run         func(msg twitch.PrivateMessage, args []string)
+	Name string
+	Run  func(msg twitch.PrivateMessage, args []string)
 }
 
 var (

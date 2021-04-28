@@ -7,29 +7,30 @@ import (
 
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/joho/godotenv"
-	. "github.com/lyx0/nourybot-go/bot"
+	bot "github.com/lyx0/nourybot-go/bot"
+	cmd "github.com/lyx0/nourybot-go/commands"
 	db "github.com/lyx0/nourybot-go/mongo"
 )
 
-var channels = map[string]*Channel{
-	"nourybot": {Name: "nrybot"},
-	// "nouryqt":              {Name: "nouryqt"},
-	// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-	// "xnoury":               {Name: "xnoury"},
-	// "nrybot":               {Name: "nrybot"},
-	// "noemience":            {Name: "noemience"},
+var channels = map[string]*bot.Channel{
+	"nourybot":             {Name: "nrybot"},
+	"nouryqt":              {Name: "nouryqt"},
+	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+	"xnoury":               {Name: "xnoury"},
+	"nrybot":               {Name: "nrybot"},
+	"noemience":            {Name: "noemience"},
 }
 
 func connectToChannels() {
 	for i := range channels {
-		Nourybot.Client.Join(i)
+		bot.Nourybot.Client.Join(i)
 		log.Printf("Connected to channel: %v\n", i)
 	}
-	SendTwitchMessage("nourybot", ":)")
-	// SendTwitchMessage("nouryqt", "pajaDink")
-	// SendTwitchMessage("nrybot", ":)")
-	// SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-	// SendTwitchMessage("xnoury", "pajaDink")
+	bot.SendTwitchMessage("nourybot", ":)")
+	bot.SendTwitchMessage("nouryqt", "pajaDink")
+	bot.SendTwitchMessage("nrybot", ":)")
+	bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+	bot.SendTwitchMessage("xnoury", "pajaDink")
 }
 
 func main() {
@@ -44,14 +45,13 @@ func main() {
 	botUser := os.Getenv("TWITCH_USER")
 	botPass := os.Getenv("TWITCH_PASSWORD")
 
-	Nourybot = &Bot{
+	bot.Nourybot = &bot.Bot{
 		Client:   twitch.NewClient(botUser, botPass),
 		Mongo:    mongoClient,
 		Channels: channels,
-		Commands: commands.initCommands(),
 	}
 
-	Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {
+	bot.Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		channelID := message.Tags["room-id"]
 		if channelID == "" {
 			fmt.Printf("Missing room-id tag in message")
@@ -61,14 +61,14 @@ func main() {
 			return
 		}
 		fmt.Printf("%v\n", message.Message)
-		HandleMessage(message, Nourybot)
+		cmd.HandleMessage(message, bot.Nourybot)
 
 	})
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
 	// log.Print(mongoClient)
-	err := Nourybot.Client.Connect()
+	err := bot.Nourybot.Client.Connect()
 
 	if err != nil {
 		log.Fatalln(err.Error())
