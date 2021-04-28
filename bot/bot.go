@@ -1,6 +1,8 @@
 package bot
 
 import (
+	"time"
+
 	"github.com/gempir/go-twitch-irc/v2"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -10,6 +12,7 @@ type Bot struct {
 	Mongo    *mongo.Client
 	Channels map[string]*Channel
 	UserID   string
+	Uptime   time.Time
 }
 
 type Channel struct {

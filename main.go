@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/joho/godotenv"
@@ -49,6 +50,7 @@ func main() {
 		Client:   twitch.NewClient(botUser, botPass),
 		Mongo:    mongoClient,
 		Channels: channels,
+		Uptime:   time.Now(),
 	}
 
 	bot.Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {

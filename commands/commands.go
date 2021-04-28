@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/gempir/go-twitch-irc/v2"
-	. "github.com/lyx0/nourybot-go/bot"
+	bot "github.com/lyx0/nourybot-go/bot"
 )
 
 const (
@@ -30,7 +30,7 @@ func HandleBotStatus(channel string, userName string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleWeather(channel string, location string) {
@@ -46,7 +46,7 @@ func HandleWeather(channel string, location string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleBttvEmotes(channel string) {
@@ -62,7 +62,7 @@ func HandleBttvEmotes(channel string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleFfzEmotes(channel string) {
@@ -78,7 +78,7 @@ func HandleFfzEmotes(channel string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleEightBall(channel string) {
@@ -94,7 +94,7 @@ func HandleEightBall(channel string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleUptime(channel string, name string) {
@@ -110,7 +110,7 @@ func HandleUptime(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
 func HandleGame(channel string, name string) {
@@ -126,7 +126,7 @@ func HandleGame(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprintf("%s current game is: %s", name, string(body)))
+	bot.SendTwitchMessage(channel, fmt.Sprintf("%s current game is: %s", name, string(body)))
 }
 
 func HandleTitle(channel string, name string) {
@@ -142,7 +142,7 @@ func HandleTitle(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprint(string(body)))
+	bot.SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
 func HandleUserId(channel string, name string) {
@@ -158,7 +158,7 @@ func HandleUserId(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, fmt.Sprint(string(body)))
+	bot.SendTwitchMessage(channel, fmt.Sprint(string(body)))
 }
 
 func HandleCoinFlip(channel string) {
@@ -174,10 +174,10 @@ func HandleCoinFlip(channel string) {
 		log.Fatalln(err)
 	}
 
-	SendTwitchMessage(channel, string(body))
+	bot.SendTwitchMessage(channel, string(body))
 }
 
-func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
+func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 	if len(message.Message) >= 2 {
 
 		if message.Message[:2] == "()" {
@@ -194,7 +194,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 			switch commandName {
 			case "":
 				if msgLen == 1 {
-					SendTwitchMessage(message.Channel, "Why yes, that's my prefix :)")
+					bot.SendTwitchMessage(message.Channel, "Why yes, that's my prefix :)")
 				}
 				return
 
@@ -202,55 +202,55 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				HandleEightBall(message.Channel)
 
 			case "bot":
-				SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
+				bot.SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
 
 			case "botstatus":
 				if msgLen == 1 {
-					SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()botstatus name")
 				} else {
 					HandleBotStatus(message.Channel, cmdParams[1])
 				}
 
 			case "bttv":
 				if msgLen == 2 {
-					SendTwitchMessage(message.Channel, bttvUrl+cmdParams[1])
+					bot.SendTwitchMessage(message.Channel, bttvUrl+cmdParams[1])
 				} else {
-					SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()bttv emotename")
 				}
 
 			case "bttvemotes":
 				if msgLen == 1 {
 					HandleBttvEmotes(message.Channel)
 				} else {
-					SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()bttv Only works for the current channel")
 				}
 
 			case "color":
-				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
 
 			case "commands":
-				SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
+				bot.SendTwitchMessage(message.Channel, "https://gist.github.com/lyx0/161913eb719afacea578b47239d0d969")
 
 			case "coinflip":
 				HandleCoinFlip(message.Channel)
 
 			case "echo":
 				if message.User.ID == "31437432" {
-					SendTwitchMessage(message.Channel, message.Message[7:(len(message.Message))])
+					bot.SendTwitchMessage(message.Channel, message.Message[7:(len(message.Message))])
 				}
 
 			case "ffz":
 				if msgLen == 2 {
-					SendTwitchMessage(message.Channel, ffzUrl+cmdParams[1])
+					bot.SendTwitchMessage(message.Channel, ffzUrl+cmdParams[1])
 				} else {
-					SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()ffz emotename")
 				}
 
 			case "ffzemotes":
 				if msgLen == 1 {
 					HandleFfzEmotes(message.Channel)
 				} else {
-					SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
 				}
 
 			case "game":
@@ -261,20 +261,20 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 				}
 
 			case "mycolor":
-				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
+				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
 
 			case "myid":
-				SendTwitchMessage(message.Channel, message.User.ID)
+				bot.SendTwitchMessage(message.Channel, message.User.ID)
 
 			case "ping":
-				SendTwitchMessage(message.Channel, "Pong! :)")
+				bot.SendTwitchMessage(message.Channel, "Pong! :)")
 
 			case "pingme":
-				SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
+				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
 			case "uid":
 				if msgLen == 1 {
-					SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")
 				} else {
 					HandleUserId(message.Channel, cmdParams[1])
 				}
@@ -295,7 +295,7 @@ func HandleMessage(message twitch.PrivateMessage, bot *Bot) {
 
 			case "weather":
 				if msgLen == 1 {
-					SendTwitchMessage(message.Channel, "Usage: ()weather location")
+					bot.SendTwitchMessage(message.Channel, "Usage: ()weather location")
 				} else {
 					HandleWeather(message.Channel, message.Message[9:len(message.Message)])
 				}
