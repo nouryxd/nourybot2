@@ -29,9 +29,9 @@ func connectToChannels() {
 	}
 	bot.SendTwitchMessage("nourybot", ":)")
 	bot.SendTwitchMessage("nouryqt", "pajaDink")
-	bot.SendTwitchMessage("nrybot", ":)")
-	bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-	bot.SendTwitchMessage("xnoury", "pajaDink")
+	// bot.SendTwitchMessage("nrybot", ":)")
+	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+	// bot.SendTwitchMessage("xnoury", "pajaDink")
 }
 
 func main() {

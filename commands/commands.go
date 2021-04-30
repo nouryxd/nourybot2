@@ -126,7 +126,7 @@ func HandleGame(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	bot.SendTwitchMessage(channel, fmt.Sprintf("%s current game is: %s", name, string(body)))
+	bot.SendTwitchMessage(channel, fmt.Sprintf("%s is playing: %s", name, string(body)))
 }
 
 func HandleTitle(channel string, name string) {
