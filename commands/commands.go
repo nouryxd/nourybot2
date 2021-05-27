@@ -1,7 +1,6 @@
 package commands
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/gempir/go-twitch-irc/v2"
@@ -24,7 +23,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			// Handle how many characters the message contains.
 			msgLen := len(strings.SplitN(message.Message, " ", -2))
 
-			fmt.Printf("%v\n", msgLen)
+			// fmt.Printf("%v\n", msgLen)
 
 			// If message starts with () and contains a command afterwards, handle the command.
 			switch commandName {
@@ -95,6 +94,17 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleGame(message.Channel, cmdParams[1])
 				}
+			case "randomcat":
+				HandleRandomCat(message.Channel)
+
+			case "randomdog":
+				HandleRandomDog(message.Channel)
+
+			case "rc":
+				HandleRandomCat(message.Channel)
+
+			case "rd":
+				HandleRandomDog(message.Channel)
 
 			case "mycolor":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
