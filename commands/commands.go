@@ -96,6 +96,20 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					HandleGame(message.Channel, cmdParams[1])
 				}
 
+			case "num":
+				if msgLen == 1 {
+					HandleRandomNumber(message.Channel)
+				} else {
+					HandleNumber(message.Channel, cmdParams[1])
+				}
+
+			case "number":
+				if msgLen == 1 {
+					HandleRandomNumber(message.Channel)
+				} else {
+					HandleNumber(message.Channel, cmdParams[1])
+				}
+
 			case "godoc":
 				if msgLen == 1 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()godoc <search parameter>")
