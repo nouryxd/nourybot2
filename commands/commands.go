@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/gempir/go-twitch-irc/v2"
@@ -94,6 +95,14 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleGame(message.Channel, cmdParams[1])
 				}
+
+			case "godoc":
+				if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()godoc <search parameter>")
+				} else {
+					bot.SendTwitchMessage(message.Channel, fmt.Sprint("https://pkg.go.dev/search?q=", message.Message[8:len(message.Message)]))
+				}
+
 			case "randomcat":
 				HandleRandomCat(message.Channel)
 
@@ -151,6 +160,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleWeather(message.Channel, message.Message[9:len(message.Message)])
 				}
+
 			case "xkcd":
 				HandleXkcd(message.Channel)
 			}
