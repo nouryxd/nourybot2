@@ -100,11 +100,17 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			case "randomdog":
 				HandleRandomDog(message.Channel)
 
+			case "randomfox":
+				HandleRandomFox(message.Channel)
+
 			case "rc":
 				HandleRandomCat(message.Channel)
 
 			case "rd":
 				HandleRandomDog(message.Channel)
+
+			case "rf":
+				HandleRandomFox(message.Channel)
 
 			case "mycolor":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
@@ -145,6 +151,8 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleWeather(message.Channel, message.Message[9:len(message.Message)])
 				}
+			case "xkcd":
+				HandleXkcd(message.Channel)
 			}
 		}
 	}

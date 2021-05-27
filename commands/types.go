@@ -9,6 +9,12 @@ type RandomDogResponse struct {
 }
 
 type RandomFoxResponse struct {
-	Image string `json:"url"`
+	Image string `json:"image"`
 	Link  string `json:"link"`
+}
+
+type XkcdResponse struct {
+	Num       int    `json:"num"`
+	SafeTitle string `json:"safe_title"`
+	Img       string `json:"img"`
 }
