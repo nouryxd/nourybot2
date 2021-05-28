@@ -140,6 +140,9 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			case "randomfox":
 				HandleRandomFox(message.Channel)
 
+			case "randomxkcd":
+				HandleRandomXkcd(message.Channel)
+
 			case "rnd":
 				if msgLen == 1 {
 					bot.SendTwitchMessage(message.Channel, fmt.Sprint(util.GenerateRandomNumber(100)))
@@ -157,6 +160,9 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 
 			case "rf":
 				HandleRandomFox(message.Channel)
+
+			case "rxkcd":
+				HandleRandomXkcd(message.Channel)
 
 			case "mycolor":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName+" your color is "+message.User.Color)
