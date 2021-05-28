@@ -16,6 +16,11 @@ func HandlePyramid(channel string, size string, emote string) {
 		bot.SendTwitchMessage(channel, "Something went wrong")
 	}
 
+	if pyramidSize == 1 {
+		bot.SendTwitchMessage(channel, fmt.Sprint(pyramidEmote+"..."))
+		return
+	}
+
 	if pyramidSize > 20 {
 		bot.SendTwitchMessage(channel, "Max pyramid size is 20")
 		return
