@@ -24,7 +24,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			// Handle how many characters the message contains.
 			msgLen := len(strings.SplitN(message.Message, " ", -2))
 
-			fmt.Printf("%v\n", msgLen)
+			// fmt.Printf("%v\n", msgLen)
 
 			// If message starts with () and contains a command afterwards, handle the command.
 			switch commandName {
