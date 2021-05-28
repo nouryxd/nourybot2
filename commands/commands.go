@@ -19,12 +19,12 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 		if message.Message[:2] == "()" {
 			// Split the first 3 characters off of the message, () and space
 			commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
-			cmdParams := strings.SplitN(message.Message, " ", 3)
+			cmdParams := strings.SplitN(message.Message, " ", 99)
 
 			// Handle how many characters the message contains.
 			msgLen := len(strings.SplitN(message.Message, " ", -2))
 
-			// fmt.Printf("%v\n", msgLen)
+			fmt.Printf("%v\n", msgLen)
 
 			// If message starts with () and contains a command afterwards, handle the command.
 			switch commandName {
@@ -36,6 +36,17 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 
 			case "8ball":
 				HandleEightBall(message.Channel)
+
+			case "ban":
+				if message.User.ID != "31437432" {
+					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
+					return
+				}
+				if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, "No user provided")
+				} else if msgLen >= 2 {
+					HandleBan(message.Channel, cmdParams[1])
+				}
 
 			case "bot":
 				bot.SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
@@ -154,11 +165,38 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					HandleUserId(message.Channel, cmdParams[1])
 				}
 
+			case "timeout":
+				if message.User.ID != "31437432" {
+					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
+					return
+				}
+				if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, "No user provided")
+				} else if msgLen == 2 {
+					bot.SendTwitchMessage(message.Channel, "No duration provided")
+				} else if msgLen >= 3 {
+					HandleTimeout(message.Channel, cmdParams[1], cmdParams[2])
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
+				}
+
 			case "title":
 				if msgLen == 1 {
 					HandleTitle(message.Channel, message.Channel)
 				} else {
 					HandleTitle(message.Channel, cmdParams[1])
+				}
+			case "unban":
+				if message.User.ID != "31437432" {
+					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
+					return
+				}
+				if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, "No user provided")
+				} else if msgLen >= 2 {
+					HandleUnban(message.Channel, cmdParams[1])
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
 				}
 
 			case "uptime":

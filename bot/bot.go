@@ -34,9 +34,9 @@ func SendTwitchMessage(target string, message string) {
 		return
 	}
 
-	if message[0] == '.' || message[0] == '/' {
-		message = ". " + message
-	}
+	// if message[0] == '.' || message[0] == '/' {
+	// 	message = ". " + message
+	// }
 
 	if len(message) > 247 {
 		message = message[0:247]
