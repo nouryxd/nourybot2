@@ -64,8 +64,8 @@ func main() {
 			return
 		}
 
-		fmt.Printf("%v\n", message.Message)
-		fmt.Print(message.User.Badges)
+		// fmt.Printf("%v\n", message.Message)
+		// fmt.Print(message.User.Badges)
 		cmd.HandleMessage(message, bot.Nourybot)
 
 	})

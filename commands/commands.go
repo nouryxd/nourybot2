@@ -6,6 +6,7 @@ import (
 
 	"github.com/gempir/go-twitch-irc/v2"
 	bot "github.com/lyx0/nourybot-go/bot"
+	"github.com/lyx0/nourybot-go/util"
 )
 
 const (
@@ -138,6 +139,15 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 
 			case "randomfox":
 				HandleRandomFox(message.Channel)
+
+			case "rnd":
+				if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, fmt.Sprint(util.GenerateRandomNumber(100)))
+				} else if msgLen == 2 {
+					bot.SendTwitchMessage(message.Channel, fmt.Sprint(util.StrGenerateRandomNumber(cmdParams[1])))
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
+				}
 
 			case "rc":
 				HandleRandomCat(message.Channel)
