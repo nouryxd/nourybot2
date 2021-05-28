@@ -14,10 +14,12 @@ func HandleRandomCat(channel string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	responseData, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	var responseObject RandomCatResponse
 	json.Unmarshal(responseData, &responseObject)
 

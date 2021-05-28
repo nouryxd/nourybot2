@@ -155,7 +155,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				bot.SendTwitchMessage(message.Channel, message.User.ID)
 
 			case "ping":
-				bot.SendTwitchMessage(message.Channel, "Pong! :)")
+				HandlePing(message.Channel)
 
 			case "pingme":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
