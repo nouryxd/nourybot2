@@ -46,6 +46,8 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "No user provided")
 				} else if msgLen >= 2 {
 					HandleBan(message.Channel, cmdParams[1])
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
 				}
 
 			case "bot":
