@@ -160,6 +160,17 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			case "pingme":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
+			case "pyramid":
+				if msgLen != 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()pyramid <size> <emote>")
+				} else if message.User.Badges["moderator"] == 1 ||
+					message.User.Badges["vip"] == 1 ||
+					message.User.Badges["broadcaster"] == 1 {
+					HandlePyramid(message.Channel, cmdParams[1], cmdParams[2])
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Plebs can't pyramid FeelsBadMan")
+				}
+
 			case "uid":
 				if msgLen == 1 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()uid username, returns the Twitch user ID")

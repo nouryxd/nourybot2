@@ -59,10 +59,13 @@ func main() {
 			fmt.Printf("Missing room-id tag in message")
 			return
 		}
+
 		if message.Tags["user-id"] == "596581605" {
 			return
 		}
+
 		fmt.Printf("%v\n", message.Message)
+		fmt.Print(message.User.Badges)
 		cmd.HandleMessage(message, bot.Nourybot)
 
 	})
