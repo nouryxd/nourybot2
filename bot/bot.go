@@ -39,8 +39,11 @@ func SendTwitchMessage(target string, message string) {
 	// }
 
 	if len(message) > 247 {
-		message = message[0:247]
-
+		firstMessage := message[0:247]
+		secondMessage := message[247:]
+		Nourybot.Client.Say(target, firstMessage)
+		Nourybot.Client.Say(target, secondMessage)
+		return
 	}
 
 	Nourybot.Client.Say(target, message)
