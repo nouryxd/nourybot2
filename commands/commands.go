@@ -106,6 +106,18 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()ffz Only works for the current channel")
 				}
 
+			case "fill":
+				if msgLen >= 2 &&
+					message.User.Badges["moderator"] == 1 ||
+					message.User.Badges["vip"] == 1 ||
+					message.User.Badges["broadcaster"] == 1 {
+					HandleFill(message.Channel, cmdParams[1])
+				} else if msgLen == 1 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()fill <emote>, only a single emote supported")
+				} else {
+					bot.SendTwitchMessage(message.Channel, "Plebs can't use this :tf:")
+				}
+
 			case "game":
 				if msgLen == 1 {
 					HandleGame(message.Channel, message.Channel)
