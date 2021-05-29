@@ -9,6 +9,16 @@ import (
 )
 
 func HandlePyramid(channel string, size string, emote string) {
+	if size[0] == '.' || size[0] == '/' {
+		bot.SendTwitchMessage(channel, ":tf:")
+		return
+	}
+
+	if emote[0] == '.' || emote[0] == '/' {
+		bot.SendTwitchMessage(channel, ":tf:")
+		return
+	}
+
 	pyramidSize, err := strconv.Atoi(size)
 	pyramidEmote := fmt.Sprint(emote + " ")
 
