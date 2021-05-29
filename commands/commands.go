@@ -52,7 +52,10 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				}
 
 			case "bot":
-				bot.SendTwitchMessage(message.Channel, "Twitch Bot currently in development, written in Go by @nouryqt")
+				HandleBotinfo(message.Channel)
+
+			case "botinfo":
+				HandleBotinfo(message.Channel)
 
 			case "botstatus":
 				if msgLen == 1 {
