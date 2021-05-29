@@ -8,6 +8,11 @@ import (
 )
 
 func HandleFill(channel string, emote string) {
+
+	if emote[0] == '.' || emote[0] == '/' {
+		bot.SendTwitchMessage(channel, ":tf:")
+		return
+	}
 	// Get the length of the emote
 	emoteLength := (len(emote) + 1)
 	// fmt.Println(emoteLength)
