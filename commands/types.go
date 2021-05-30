@@ -31,7 +31,8 @@ type TwitchStreamTagsResponse struct {
 	LocalizationDescriptions map[string]string `json:"localization_descriptions"`
 }
 
-type SubageResponse struct {
+// https://api.ivr.fi
+type IvrApiResponse struct {
 	User         string     `json:"user"`
 	UserID       string     `json:"userid"`
 	Channel      string     `json:"channel"`
@@ -41,6 +42,7 @@ type SubageResponse struct {
 	FollowedAt   string     `json:"followedAt"`
 	Cumulative   Cumulative `json:"cumulative"`
 	Streak       SubStreak  `json:"streak"`
+	Error        string     `json:"error"`
 }
 
 type Cumulative struct {

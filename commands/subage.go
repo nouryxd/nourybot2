@@ -23,9 +23,15 @@ func HandleSubage(channel string, username string, streamer string) {
 		log.Fatalln(err)
 	}
 
-	var responseObject SubageResponse
+	var responseObject IvrApiResponse
 	json.Unmarshal(body, &responseObject)
 
+	// User or channel was not found
+	if responseObject.Error != "" {
+		bot.SendTwitchMessage(channel, fmt.Sprintf(responseObject.Error+" FeelsBadMan"))
+		return
+	}
+	// User was found but has their subscription hidden.
 	if responseObject.SubageHidden {
 		bot.SendTwitchMessage(channel, fmt.Sprintf("User "+username+" has their subscription status hidden. FeelsBadMan"))
 	} else {
