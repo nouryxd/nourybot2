@@ -37,6 +37,7 @@ func connectToChannels() {
 func main() {
 	log.Println("Starting")
 
+	// Cosmetic Database LUL
 	mongoClient := db.Connect()
 
 	envErr := godotenv.Load()
@@ -54,12 +55,14 @@ func main() {
 	}
 
 	bot.Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {
+		// If channelID is missing something must have gone wrong.
 		channelID := message.Tags["room-id"]
 		if channelID == "" {
 			fmt.Printf("Missing room-id tag in message")
 			return
 		}
 
+		// So that the bot doesn't repeat itself.
 		if message.Tags["user-id"] == "596581605" {
 			return
 		}

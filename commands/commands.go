@@ -6,7 +6,7 @@ import (
 
 	"github.com/gempir/go-twitch-irc/v2"
 	bot "github.com/lyx0/nourybot-go/bot"
-	"github.com/lyx0/nourybot-go/util"
+	util "github.com/lyx0/nourybot-go/util"
 )
 
 const (
@@ -39,13 +39,15 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				HandleEightBall(message.Channel)
 
 			case "ban":
-				if message.User.ID != "31437432" {
+				if !util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
 					return
 				}
-				if msgLen == 1 {
+				// Redundant safety checks
+				if msgLen == 1 && util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "No user provided")
-				} else if msgLen >= 2 {
+					// Redundant safety checks
+				} else if msgLen >= 2 && util.ModPrivsMessage(message) {
 					HandleBan(message.Channel, cmdParams[1])
 				} else {
 					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
@@ -107,10 +109,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				}
 
 			case "fill":
-				if msgLen >= 2 &&
-					message.User.Badges["moderator"] == 1 ||
-					message.User.Badges["vip"] == 1 ||
-					message.User.Badges["broadcaster"] == 1 {
+				if msgLen >= 2 && util.ElevatedPrivsMessage(message) {
 					HandleFill(message.Channel, cmdParams[1])
 				} else if msgLen == 1 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()fill <emote>, only a single emote supported")
@@ -194,9 +193,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			case "pyramid":
 				if msgLen != 3 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()pyramid <size> <emote>")
-				} else if message.User.Badges["moderator"] == 1 ||
-					message.User.Badges["vip"] == 1 ||
-					message.User.Badges["broadcaster"] == 1 {
+				} else if util.ElevatedPrivsMessage(message) {
 					HandlePyramid(message.Channel, cmdParams[1], cmdParams[2])
 				} else {
 					bot.SendTwitchMessage(message.Channel, "Plebs can't pyramid FeelsBadMan")
@@ -210,7 +207,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				}
 
 			case "timeout":
-				if message.User.ID != "31437432" {
+				if !util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
 					return
 				}
@@ -231,13 +228,15 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					HandleTitle(message.Channel, cmdParams[1])
 				}
 			case "unban":
-				if message.User.ID != "31437432" {
+				if !util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")
 					return
 				}
-				if msgLen == 1 {
+				// Redundant safety check
+				if msgLen == 1 && util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "No user provided")
-				} else if msgLen >= 2 {
+					// Redundant safety check
+				} else if msgLen >= 2 && util.ModPrivsMessage(message) {
 					HandleUnban(message.Channel, cmdParams[1])
 				} else {
 					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
