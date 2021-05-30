@@ -221,6 +221,13 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
 				}
 
+			case "subage":
+				if msgLen < 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()subage <username> <channel>")
+				} else {
+					HandleSubage(message.Channel, cmdParams[1], cmdParams[2])
+				}
+
 			case "title":
 				if msgLen == 1 {
 					HandleTitle(message.Channel, message.Channel)
