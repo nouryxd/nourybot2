@@ -117,6 +117,13 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "Plebs can't use this :tf:")
 				}
 
+			case "followage":
+				if msgLen < 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()followage <username> <channel>")
+				} else {
+					HandleFollowage(message.Channel, cmdParams[1], cmdParams[2])
+				}
+
 			case "game":
 				if msgLen == 1 {
 					HandleGame(message.Channel, message.Channel)
