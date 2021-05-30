@@ -30,6 +30,8 @@ func HandleFollowage(channel string, username string, streamer string) {
 	if responseObject.Error != "" {
 		bot.SendTwitchMessage(channel, fmt.Sprintf(responseObject.Error+" FeelsBadMan"))
 		return
+	} else if responseObject.FollowedAt == "" {
+		bot.SendTwitchMessage(channel, fmt.Sprintf(username+" is not following "+streamer))
 	} else {
 		// Get followdate and trim the hours/minutes/seconds afterwards
 		// TODO: Make it a nicer format, right now it's YYYY-MM-DD
