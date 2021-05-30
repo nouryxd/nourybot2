@@ -36,6 +36,6 @@ func HandleFollowage(channel string, username string, streamer string) {
 		// Get followdate and trim the hours/minutes/seconds afterwards
 		// TODO: Make it a nicer format, right now it's YYYY-MM-DD
 		d := responseObject.FollowedAt[:10]
-		bot.SendTwitchMessage(channel, fmt.Sprintf("User "+username+" has been following "+streamer+" since "+d+"."))
+		bot.SendTwitchMessage(channel, fmt.Sprintf(username+" has been following "+streamer+" since "+d+"."))
 	}
 }

@@ -33,9 +33,9 @@ func HandleSubage(channel string, username string, streamer string) {
 	}
 	// User was found but has their subscription hidden.
 	if responseObject.SubageHidden {
-		bot.SendTwitchMessage(channel, fmt.Sprintf("User "+username+" has their subscription status hidden. FeelsBadMan"))
+		bot.SendTwitchMessage(channel, fmt.Sprintf(username+" has their subscription status hidden. FeelsBadMan"))
 	} else {
 		months := fmt.Sprint(responseObject.Cumulative.Months)
-		bot.SendTwitchMessage(channel, fmt.Sprintf("User "+username+" has been subscribed to "+streamer+" for "+months+" months."))
+		bot.SendTwitchMessage(channel, fmt.Sprintf(username+" has been subscribed to "+streamer+" for "+months+" months."))
 	}
 }
