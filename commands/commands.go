@@ -215,6 +215,20 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 			case "ping":
 				HandlePing(message.Channel)
 
+			case "pfp":
+				if msgLen < 2 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()pfp <username>")
+				} else {
+					HandlePfp(message.Channel, cmdParams[1])
+				}
+
+			case "profilepicture":
+				if msgLen < 2 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()profilepicture <username>")
+				} else {
+					HandlePfp(message.Channel, cmdParams[1])
+				}
+
 			case "pingme":
 				bot.SendTwitchMessage(message.Channel, "@"+message.User.DisplayName)
 
