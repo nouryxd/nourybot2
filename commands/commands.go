@@ -117,11 +117,18 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "Plebs can't use this :tf:")
 				}
 
+			case "firstline":
+				if msgLen < 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()firstline <username> <channel>")
+				} else {
+					HandleFirstline(message.Channel, cmdParams[1], cmdParams[2])
+				}
+
 			case "fl":
 				if msgLen < 3 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()fl <username> <channel>")
 				} else {
-					HandleFl(message.Channel, cmdParams[1], cmdParams[2])
+					HandleFirstline(message.Channel, cmdParams[1], cmdParams[2])
 				}
 
 			case "followage":
@@ -170,6 +177,13 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 
 			case "randomxkcd":
 				HandleRandomXkcd(message.Channel)
+
+			case "randomquote":
+				if msgLen < 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()randomquote <username> <channel>")
+				} else {
+					HandleRq(message.Channel, cmdParams[1], cmdParams[2])
+				}
 
 			case "rnd":
 				if msgLen == 1 {

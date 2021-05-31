@@ -18,7 +18,7 @@ type flApiResponse struct {
 	Error   string `json:"error"`
 }
 
-func HandleFl(channel string, username string, streamer string) {
+func HandleFirstline(channel string, username string, streamer string) {
 	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/logs/firstmessage/%s/%s", streamer, username))
 	if err != nil {
 		log.Fatalln(err)
@@ -31,7 +31,7 @@ func HandleFl(channel string, username string, streamer string) {
 		log.Fatalln(err)
 	}
 
-	var responseObject rqApiResponse
+	var responseObject flApiResponse
 	json.Unmarshal(body, &responseObject)
 
 	// User or channel was not found
