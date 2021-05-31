@@ -10,6 +10,28 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// https://api.ivr.fi
+type IvrApiResponse struct {
+	User         string     `json:"user"`
+	UserID       string     `json:"userid"`
+	Channel      string     `json:"channel"`
+	ChannelId    string     `json:"channelid"`
+	SubageHidden bool       `json:"hidden"`
+	Subscribed   bool       `json:"subscribed"`
+	FollowedAt   string     `json:"followedAt"`
+	Cumulative   Cumulative `json:"cumulative"`
+	Streak       SubStreak  `json:"streak"`
+	Error        string     `json:"error"`
+}
+
+type Cumulative struct {
+	Months int `json:"months"`
+}
+
+type SubStreak struct {
+	Months int `json:"months"`
+}
+
 func HandleSubage(channel string, username string, streamer string) {
 	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/twitch/subage/%s/%s", username, streamer))
 	if err != nil {

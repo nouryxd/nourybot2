@@ -11,8 +11,14 @@ import (
 	util "github.com/lyx0/nourybot-go/util"
 )
 
-func HandleRandomXkcd(channel string) {
+// https://xkcd.com/json.html
+type XkcdResponse struct {
+	Num       int    `json:"num"`
+	SafeTitle string `json:"safe_title"`
+	Img       string `json:"img"`
+}
 
+func HandleRandomXkcd(channel string) {
 	comicNum := fmt.Sprint(util.GenerateRandomNumber(2468))
 	response, err := http.Get(fmt.Sprint("http://xkcd.com/" + comicNum + "/info.0.json"))
 	if err != nil {

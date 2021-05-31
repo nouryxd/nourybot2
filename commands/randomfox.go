@@ -9,6 +9,12 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// https://randomfox.ca/floof
+type RandomFoxResponse struct {
+	Image string `json:"image"`
+	Link  string `json:"link"`
+}
+
 func HandleRandomFox(channel string) {
 	response, err := http.Get("https://randomfox.ca/floof/")
 	if err != nil {

@@ -9,6 +9,11 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// https://random.dog/woof.json
+type RandomDogResponse struct {
+	Url string `json:"url"`
+}
+
 func HandleRandomDog(channel string) {
 	response, err := http.Get("https://random.dog/woof.json")
 	if err != nil {
