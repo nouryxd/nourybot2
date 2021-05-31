@@ -9,6 +9,11 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// https://aws.random.cat/meow
+type RandomCatResponse struct {
+	File string `json:"file"`
+}
+
 func HandleRandomCat(channel string) {
 	response, err := http.Get("https://aws.random.cat/meow")
 	if err != nil {
