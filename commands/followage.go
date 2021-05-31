@@ -10,6 +10,16 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// https://api.ivr.fi
+type followageApiResponse struct {
+	User       string `json:"user"`
+	UserID     string `json:"userid"`
+	Channel    string `json:"channel"`
+	ChannelId  string `json:"channelid"`
+	FollowedAt string `json:"followedAt"`
+	Error      string `json:"error"`
+}
+
 func HandleFollowage(channel string, username string, streamer string) {
 	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/twitch/subage/%s/%s", username, streamer))
 	if err != nil {
@@ -23,7 +33,7 @@ func HandleFollowage(channel string, username string, streamer string) {
 		log.Fatalln(err)
 	}
 
-	var responseObject IvrApiResponse
+	var responseObject followageApiResponse
 	json.Unmarshal(body, &responseObject)
 
 	// User or channel was not found
