@@ -228,6 +228,13 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					bot.SendTwitchMessage(message.Channel, "Something went wrong FeelsBadMan")
 				}
 
+			case "rq":
+				if msgLen < 3 {
+					bot.SendTwitchMessage(message.Channel, "Usage: ()rq <username> <channel>")
+				} else {
+					HandleRq(message.Channel, cmdParams[1], cmdParams[2])
+				}
+
 			case "subage":
 				if msgLen < 3 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()subage <username> <channel>")
