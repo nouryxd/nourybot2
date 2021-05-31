@@ -11,7 +11,7 @@ import (
 )
 
 // https://api.ivr.fi
-type IvrApiResponse struct {
+type subageApiResponse struct {
 	User         string     `json:"user"`
 	UserID       string     `json:"userid"`
 	Channel      string     `json:"channel"`
@@ -45,7 +45,7 @@ func HandleSubage(channel string, username string, streamer string) {
 		log.Fatalln(err)
 	}
 
-	var responseObject IvrApiResponse
+	var responseObject subageApiResponse
 	json.Unmarshal(body, &responseObject)
 
 	// User or channel was not found
