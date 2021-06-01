@@ -13,27 +13,27 @@ import (
 	"github.com/lyx0/nourybot-go/db"
 )
 
-var channels = map[string]*bot.Channel{
-	"nourybot":             {Name: "nourybot"},
-	"nouryqt":              {Name: "nouryqt"},
-	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-	"xnoury":               {Name: "xnoury"},
-	"nrybot":               {Name: "nrybot"},
-	"noemience":            {Name: "noemience"},
-}
+// var channels = map[string]*bot.Channel{
+// 	"nourybot": {Name: "nourybot"},
+// "nouryqt":              {Name: "nouryqt"},
+// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+// "xnoury":               {Name: "xnoury"},
+// "nrybot":               {Name: "nrybot"},
+// "noemience":            {Name: "noemience"},
+// }
 
-func connectToChannels() {
+// func connectToChannels() {
 
-	for i := range channels {
-		bot.Nourybot.Client.Join(i)
-		log.Printf("Connected to channel: %v\n", i)
-	}
-	bot.SendTwitchMessage("nourybot", ":)")
-	bot.SendTwitchMessage("nouryqt", "pajaDink")
-	// bot.SendTwitchMessage("nrybot", ":)")
-	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-	// bot.SendTwitchMessage("xnoury", "pajaDink")
-}
+// 	for i := range channels {
+// 		bot.Nourybot.Client.Join(i)
+// 		log.Printf("Connected to channel: %v\n", i)
+// 	}
+// 	bot.SendTwitchMessage("nourybot", ":)")
+// 	// bot.SendTwitchMessage("nouryqt", "pajaDink")
+// 	// bot.SendTwitchMessage("nrybot", ":)")
+// 	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+// 	// bot.SendTwitchMessage("xnoury", "pajaDink")
+// }
 
 func main() {
 	log.Println("Starting")
@@ -46,9 +46,9 @@ func main() {
 	botPass := os.Getenv("TWITCH_PASSWORD")
 
 	bot.Nourybot = &bot.Bot{
-		Client:   twitch.NewClient(botUser, botPass),
-		Channels: channels,
-		Uptime:   time.Now(),
+		Client: twitch.NewClient(botUser, botPass),
+		// Channels: channels,
+		Uptime: time.Now(),
 	}
 
 	bot.Nourybot.Client.OnPrivateMessage(func(message twitch.PrivateMessage) {
@@ -71,7 +71,7 @@ func main() {
 	})
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
-	connectToChannels()
+	// connectToChannels()
 
 	// Connect to MySQL database
 	db.Connect()

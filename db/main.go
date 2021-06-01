@@ -8,8 +8,10 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	bot "github.com/lyx0/nourybot-go/bot"
 )
 
+// TODO: honestly idk, make it look normal i guess?
 func Connect() {
 	fmt.Println("Connecting to MySQL database")
 
@@ -39,7 +41,7 @@ func Connect() {
 	defer db.Close()
 	fmt.Println("Connected to database")
 
-	rows, err := db.Query("SELECT * FROM `connectchannels`")
+	rows, err := db.Query("SELECT `Name` FROM `nouryqt_nourybot`.`connectchannels`")
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
@@ -68,17 +70,24 @@ func Connect() {
 
 		// Now do something with the data.
 		// Here we just print each column as a string.
-		var value string
+		var channel string
 		for i, col := range values {
 			// Here we can check if the value is nil (NULL value)
 			if col == nil {
-				value = "NULL"
+				channel = "NULL"
 			} else {
-				value = string(col)
+				channel = string(col)
 			}
-			fmt.Println(columns[i], ": ", value)
+			fmt.Printf(columns[i], ": ", channel, "\n")
 		}
 		fmt.Println("-----------------------------------")
+
+		// TODO: move this somewhere else
+		// Join each channel
+		bot.Nourybot.Client.Join(channel)
+		fmt.Printf("Joined: %s\n", channel)
+		// Say :) in each channel
+		// bot.Nourybot.Client.Say(channel, ":)")
 	}
 	if err = rows.Err(); err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
