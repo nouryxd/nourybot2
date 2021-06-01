@@ -10,6 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	bot "github.com/lyx0/nourybot-go/bot"
 	cmd "github.com/lyx0/nourybot-go/commands"
+	db "github.com/lyx0/nourybot-go/mongo"
 )
 
 var channels = map[string]*bot.Channel{
@@ -36,6 +37,9 @@ func connectToChannels() {
 func main() {
 	log.Println("Starting")
 
+	// Cosmetic Database LUL
+	mongoClient := db.Connect()
+
 	envErr := godotenv.Load()
 	if envErr != nil {
 		log.Fatal("Error loading .env file")
@@ -45,6 +49,7 @@ func main() {
 
 	bot.Nourybot = &bot.Bot{
 		Client:   twitch.NewClient(botUser, botPass),
+		Mongo:    mongoClient,
 		Channels: channels,
 		Uptime:   time.Now(),
 	}
@@ -70,6 +75,7 @@ func main() {
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
+	// log.Print(mongoClient)
 	err := bot.Nourybot.Client.Connect()
 
 	if err != nil {
