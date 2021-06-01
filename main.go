@@ -10,7 +10,6 @@ import (
 	"github.com/joho/godotenv"
 	bot "github.com/lyx0/nourybot-go/bot"
 	cmd "github.com/lyx0/nourybot-go/commands"
-	db "github.com/lyx0/nourybot-go/db"
 )
 
 var channels = map[string]*bot.Channel{
@@ -71,8 +70,6 @@ func main() {
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
-	db.Connect()
-	// log.Print(mongoClient)
 	err := bot.Nourybot.Client.Connect()
 
 	if err != nil {
