@@ -10,16 +10,16 @@ import (
 	"github.com/joho/godotenv"
 	bot "github.com/lyx0/nourybot-go/bot"
 	cmd "github.com/lyx0/nourybot-go/commands"
-	db "github.com/lyx0/nourybot-go/mongo"
+	"github.com/lyx0/nourybot-go/db"
 )
 
 var channels = map[string]*bot.Channel{
-	"nourybot":             {Name: "nourybot"},
-	"nouryqt":              {Name: "nouryqt"},
-	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-	"xnoury":               {Name: "xnoury"},
-	"nrybot":               {Name: "nrybot"},
-	"noemience":            {Name: "noemience"},
+	"nourybot": {Name: "nourybot"},
+	// "nouryqt":              {Name: "nouryqt"},
+	// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+	// "xnoury":               {Name: "xnoury"},
+	// "nrybot":               {Name: "nrybot"},
+	// "noemience":            {Name: "noemience"},
 }
 
 func connectToChannels() {
@@ -28,7 +28,7 @@ func connectToChannels() {
 		log.Printf("Connected to channel: %v\n", i)
 	}
 	bot.SendTwitchMessage("nourybot", ":)")
-	bot.SendTwitchMessage("nouryqt", "pajaDink")
+	// bot.SendTwitchMessage("nouryqt", "pajaDink")
 	// bot.SendTwitchMessage("nrybot", ":)")
 	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
 	// bot.SendTwitchMessage("xnoury", "pajaDink")
@@ -36,9 +36,6 @@ func connectToChannels() {
 
 func main() {
 	log.Println("Starting")
-
-	// Cosmetic Database LUL
-	mongoClient := db.Connect()
 
 	envErr := godotenv.Load()
 	if envErr != nil {
@@ -49,7 +46,6 @@ func main() {
 
 	bot.Nourybot = &bot.Bot{
 		Client:   twitch.NewClient(botUser, botPass),
-		Mongo:    mongoClient,
 		Channels: channels,
 		Uptime:   time.Now(),
 	}
@@ -75,7 +71,11 @@ func main() {
 
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	connectToChannels()
-	// log.Print(mongoClient)
+
+	// Connect to MySQL database
+	db.Connect()
+
+	// Connect to Twitch chat
 	err := bot.Nourybot.Client.Connect()
 
 	if err != nil {
