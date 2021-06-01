@@ -283,6 +283,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleTitle(message.Channel, cmdParams[1])
 				}
+
 			case "unban":
 				if !util.ModPrivsMessage(message) {
 					bot.SendTwitchMessage(message.Channel, "You are not allowed to do that :tf:")

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -9,8 +10,14 @@ import (
 	bot "github.com/lyx0/nourybot-go/bot"
 )
 
-func HandleUserId(channel string, name string) {
-	resp, err := http.Get(fmt.Sprintf("https://customapi.aidenwallis.co.uk/api/v1/twitch/toID/%s", name))
+// https://api.ivr.fi
+type uidApiResponse struct {
+	Id    string `json:"id"`
+	Error string `json:"error"`
+}
+
+func HandleUserId(channel string, username string) {
+	resp, err := http.Get(fmt.Sprintf("https://api.ivr.fi/twitch/resolve/%s", username))
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -22,5 +29,14 @@ func HandleUserId(channel string, name string) {
 		log.Fatalln(err)
 	}
 
-	bot.SendTwitchMessage(channel, fmt.Sprint(string(body)))
+	var responseObject uidApiResponse
+	json.Unmarshal(body, &responseObject)
+
+	// User not found
+	if responseObject.Error != "" {
+		bot.SendTwitchMessage(channel, fmt.Sprintf(responseObject.Error+" FeelsBadMan"))
+		return
+	} else {
+		bot.SendTwitchMessage(channel, fmt.Sprintf(responseObject.Id))
+	}
 }
