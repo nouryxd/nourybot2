@@ -26,13 +26,16 @@ func Connect() *mongo.Client {
 	// log.Printf(mongoURL)
 
 	// connect to database
-	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprintf(mongoURL)))
+	client, err := mongo.NewClient(options.Client().ApplyURI(fmt.Sprint(mongoURL)))
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// if connection takes more than 10 seconds timeout and throw an error
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, ctxErr := context.WithTimeout(context.Background(), 10*time.Second)
+	if ctxErr != nil {
+		log.Fatal(err)
+	}
 	err = client.Connect(ctx)
 	if err != nil {
 		log.Fatal(err)
