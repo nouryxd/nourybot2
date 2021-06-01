@@ -14,12 +14,12 @@ import (
 )
 
 var channels = map[string]*bot.Channel{
-	"nourybot": {Name: "nourybot"},
-	// "nouryqt":              {Name: "nouryqt"},
-	// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-	// "xnoury":               {Name: "xnoury"},
-	// "nrybot":               {Name: "nrybot"},
-	// "noemience":            {Name: "noemience"},
+	"nourybot":             {Name: "nourybot"},
+	"nouryqt":              {Name: "nouryqt"},
+	"uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+	"xnoury":               {Name: "xnoury"},
+	"nrybot":               {Name: "nrybot"},
+	"noemience":            {Name: "noemience"},
 }
 
 func connectToChannels() {
@@ -28,10 +28,10 @@ func connectToChannels() {
 		log.Printf("Connected to channel: %v\n", i)
 	}
 	bot.SendTwitchMessage("nourybot", ":)")
-	// bot.SendTwitchMessage("nouryqt", "pajaDink")
-	// bot.SendTwitchMessage("nrybot", ":)")
-	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-	// bot.SendTwitchMessage("xnoury", "pajaDink")
+	bot.SendTwitchMessage("nouryqt", "pajaDink")
+	bot.SendTwitchMessage("nrybot", ":)")
+	bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+	bot.SendTwitchMessage("xnoury", "pajaDink")
 }
 
 func main() {
