@@ -71,16 +71,16 @@ func Connect() {
 		// Now do something with the data.
 		// Here we just print each column as a string.
 		var channel string
-		for i, col := range values {
+		for _, col := range values {
 			// Here we can check if the value is nil (NULL value)
 			if col == nil {
 				channel = "NULL"
 			} else {
 				channel = string(col)
 			}
-			fmt.Printf(columns[i], ": ", channel, "\n")
+			// fmt.Printf(columns[i], ": ", channel, "\n")
 		}
-		fmt.Println("-----------------------------------")
+		// fmt.Println("-----------------------------------")
 
 		// TODO: move this somewhere else
 		// Join each channel
@@ -88,6 +88,62 @@ func Connect() {
 		fmt.Printf("Joined: %s\n", channel)
 		// Say :) in each channel
 		// bot.Nourybot.Client.Say(channel, ":)")
+	}
+	if err = rows.Err(); err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	// TODO: fix this mess
+	// ######################################################################################
+	// Announce
+	// ######################################################################################
+	rows, err = db.Query("SELECT `Name` FROM `connectchannels` WHERE `Announce` = 'true'")
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	// Get column names
+	columns, err = rows.Columns()
+	if err != nil {
+		panic(err.Error()) // proper error handling instead of panic in your app
+	}
+
+	// Make a slice for the values
+	values = make([]sql.RawBytes, len(columns))
+
+	scanArgs = make([]interface{}, len(values))
+	for i := range values {
+		scanArgs[i] = &values[i]
+	}
+
+	// Fetch rows
+	for rows.Next() {
+		// get RawBytes from data
+		err = rows.Scan(scanArgs...)
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+
+		// Now do something with the data.
+		// Here we just print each column as a string.
+		var channel string
+		for _, col := range values {
+			// Here we can check if the value is nil (NULL value)
+			if col == nil {
+				channel = "NULL"
+			} else {
+				channel = string(col)
+			}
+			// fmt.Printf(columns[i], ": ", channel, "\n")
+		}
+		// fmt.Println("-----------------------------------")
+
+		// TODO: move this somewhere else
+		// Join each channel
+		// bot.Nourybot.Client.Join(channel)
+		fmt.Printf("Announcing join in: %s\n", channel)
+		// Say :) in each channel
+		bot.Nourybot.Client.Say(channel, ":)")
 	}
 	if err = rows.Err(); err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
