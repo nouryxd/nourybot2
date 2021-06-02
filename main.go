@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 	bot "github.com/lyx0/nourybot-go/bot"
 	cmd "github.com/lyx0/nourybot-go/commands"
-	"github.com/lyx0/nourybot-go/db"
+	"github.com/lyx0/nourybot-go/modules"
 )
 
 // var channels = map[string]*bot.Channel{
@@ -73,8 +73,8 @@ func main() {
 	// connectToChannels needs to be above err := Nourybot.Client.Connect()
 	// connectToChannels()
 
-	// Connect to MySQL database
-	db.Connect()
+	// Connect to MySQL database and join each channel
+	modules.ConnectDatabase()
 
 	// Connect to Twitch chat
 	err := bot.Nourybot.Client.Connect()
