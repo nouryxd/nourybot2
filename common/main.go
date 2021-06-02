@@ -1,7 +1,6 @@
-/**
-#######################################
-Just a backup file right now
-#######################################
+// #######################################
+// Just a backup file right now
+// #######################################
 package common
 
 import (
@@ -49,8 +48,7 @@ func JoinChannels(db *sql.DB) error {
 			}
 		}
 		bot.Nourybot.Client.Join(channel)
-		fmt.Printf("Joined: #%s", channel)
+		fmt.Printf("Joined: #%s\n", channel)
 	}
 	return nil
 }
-**/
