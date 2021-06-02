@@ -13,7 +13,9 @@ docker run -it --rm -p 5051:5051 nourybot
 #### Running it normally
 ```
 go run main.go
-or
+```
+or:
+```
 go build .
 ./nourybot-go
 ```
