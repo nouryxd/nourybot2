@@ -7,7 +7,8 @@ import (
 	"github.com/lyx0/nourybot-go/bot"
 )
 
-// JoinChannels queries the database for a list of channels to join and joins them.
+// JoinChannels queries a given db *sql.DB database for a
+// list of channels which we should join.
 func JoinChannels(db *sql.DB) error {
 	fmt.Println("Getting channels to join...")
 

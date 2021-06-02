@@ -6,7 +6,8 @@ import (
 	"github.com/lyx0/nourybot-go/bot"
 )
 
-// AnnounceJoin queries a list of channels where we should announce that we joined.
+// AnnounceJoin queries a given db *sql.DB database for a
+// list of channels in which we should announce that we joined.
 func AnnounceJoin(db *sql.DB) error {
 	rows, err := db.Query("SELECT `Name` FROM `connectchannels` WHERE `Announce` = 'true'")
 	if err != nil {
