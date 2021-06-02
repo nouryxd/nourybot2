@@ -34,6 +34,10 @@ func ConnectDatabase() (db *sql.DB) {
 	}
 
 	fmt.Println("Connected to database")
+
+	// Get each channel from database and join them
 	common.JoinChannels(db)
+	common.AnnounceJoin(db)
+
 	return db
 }
