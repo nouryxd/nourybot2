@@ -27,6 +27,8 @@ var (
 	Nourybot *Bot
 )
 
+// SendTwitchMessage sends a twitch message for a given
+// target(channel) string and message string
 func SendTwitchMessage(target string, message string) {
 	if len(message) == 0 {
 		return

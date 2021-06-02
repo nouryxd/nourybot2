@@ -13,28 +13,6 @@ import (
 	"github.com/lyx0/nourybot-go/modules"
 )
 
-// var channels = map[string]*bot.Channel{
-// 	"nourybot": {Name: "nourybot"},
-// "nouryqt":              {Name: "nouryqt"},
-// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
-// "xnoury":               {Name: "xnoury"},
-// "nrybot":               {Name: "nrybot"},
-// "noemience":            {Name: "noemience"},
-// }
-
-// func connectToChannels() {
-
-// 	for i := range channels {
-// 		bot.Nourybot.Client.Join(i)
-// 		log.Printf("Connected to channel: %v\n", i)
-// 	}
-// 	bot.SendTwitchMessage("nourybot", ":)")
-// 	// bot.SendTwitchMessage("nouryqt", "pajaDink")
-// 	// bot.SendTwitchMessage("nrybot", ":)")
-// 	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
-// 	// bot.SendTwitchMessage("xnoury", "pajaDink")
-// }
-
 func main() {
 	log.Println("Starting")
 
@@ -84,3 +62,30 @@ func main() {
 	}
 
 }
+
+// ###############################################
+// Leftover code for connecting to channels
+// in case I ever need it again
+// ###############################################
+//
+// var channels = map[string]*bot.Channel{
+// 	"nourybot": {Name: "nourybot"},
+// "nouryqt":              {Name: "nouryqt"},
+// "uudelleenkytkeytynyt": {Name: "uudelleenkytkeytynyt"},
+// "xnoury":               {Name: "xnoury"},
+// "nrybot":               {Name: "nrybot"},
+// "noemience":            {Name: "noemience"},
+// }
+
+// func connectToChannels() {
+
+// 	for i := range channels {
+// 		bot.Nourybot.Client.Join(i)
+// 		log.Printf("Connected to channel: %v\n", i)
+// 	}
+// 	bot.SendTwitchMessage("nourybot", ":)")
+// 	// bot.SendTwitchMessage("nouryqt", "pajaDink")
+// 	// bot.SendTwitchMessage("nrybot", ":)")
+// 	// bot.SendTwitchMessage("uudelleenkytkeytynyt", ":)")
+// 	// bot.SendTwitchMessage("xnoury", "pajaDink")
+// }

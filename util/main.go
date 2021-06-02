@@ -9,6 +9,8 @@ import (
 	"github.com/gempir/go-twitch-irc/v2"
 )
 
+// StrGenerateRandomNumber generates a random number from
+// a given max value as a string
 func StrGenerateRandomNumber(max string) int {
 	num, err := strconv.Atoi(max)
 	if num < 1 {
@@ -24,12 +26,15 @@ func StrGenerateRandomNumber(max string) int {
 	}
 }
 
+// GenerateRandomNumber generates a random number from
+// a given max value as a int
 func GenerateRandomNumber(max int) int {
 	rand.Seed(time.Now().UnixNano())
 	return rand.Intn(max)
 }
 
-// ElevatedPrivsMessage is a message from either moderator, vip or the broadcaster.
+// ElevatedPrivsMessage is checking a given message twitch.PrivateMessage
+// if it came from a moderator/vip/or broadcaster and returns a bool
 func ElevatedPrivsMessage(message twitch.PrivateMessage) bool {
 	if message.User.Badges["moderator"] == 1 ||
 		message.User.Badges["vip"] == 1 ||
@@ -40,7 +45,8 @@ func ElevatedPrivsMessage(message twitch.PrivateMessage) bool {
 	}
 }
 
-// ModPrivsMessage is a message from either a moderator or the broadcaster but not vip.
+// ModPrivsMessage is checking a given message twitch.PrivateMessage
+// if it came from a moderator or broadcaster and returns a bool
 func ModPrivsMessage(message twitch.PrivateMessage) bool {
 	if message.User.Badges["moderator"] == 1 ||
 		message.User.Badges["broadcaster"] == 1 {
