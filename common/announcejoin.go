@@ -2,6 +2,7 @@ package common
 
 import (
 	"database/sql"
+	"fmt"
 
 	"github.com/lyx0/nourybot-go/bot"
 )
@@ -44,7 +45,7 @@ func AnnounceJoin(db *sql.DB) error {
 				channel = string(col)
 			}
 		}
-		// fmt.Printf("Announcing join in: #%s\n", channel)
+		fmt.Printf("Announcing join in: #%s\n", channel)
 		// Bot joins and says ":)"
 		bot.Nourybot.Client.Say(channel, ":)")
 	}

@@ -8,12 +8,11 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
-	common "github.com/lyx0/nourybot-go/common"
 )
 
 // ConnectDatabase connects to my MySQL database
 // and calls JoinChannels and AnnounceJoin
-func ConnectDatabase() (db *sql.DB) {
+func Connect() (db *sql.DB) {
 	envErr := godotenv.Load()
 	if envErr != nil {
 		log.Fatal("Error loading .env file")
@@ -30,7 +29,6 @@ func ConnectDatabase() (db *sql.DB) {
 			DB_PASS,
 			DB_HOST,
 			DB_NAME))
-	defer db.Close()
 
 	if err != nil {
 		log.Fatalf("Couldn't establish database connection: %s", err)
@@ -41,11 +39,6 @@ func ConnectDatabase() (db *sql.DB) {
 	}
 
 	fmt.Println("Connected to database")
-
-	// Get each channel from database and join them
-	common.JoinChannels(db)
-	// Get a set of channels where we should announce when we join
-	common.AnnounceJoin(db)
 
 	return db
 }
