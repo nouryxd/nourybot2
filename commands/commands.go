@@ -6,6 +6,7 @@ import (
 
 	"github.com/gempir/go-twitch-irc/v2"
 	bot "github.com/lyx0/nourybot-go/bot"
+	"github.com/lyx0/nourybot-go/modules"
 	util "github.com/lyx0/nourybot-go/util"
 )
 
@@ -15,6 +16,11 @@ const (
 )
 
 func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
+
+	// Database client
+	sqlClient := modules.Connect()
+	defer sqlClient.Close()
+
 	if len(message.Message) >= 2 {
 
 		if message.Message[:2] == "()" {
@@ -145,6 +151,12 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					HandleGame(message.Channel, message.Channel)
 				} else {
 					HandleGame(message.Channel, cmdParams[1])
+				}
+			case "joinchannel":
+				if message.User.ID != "31437432" {
+					bot.SendTwitchMessage(message.Channel, "You're not authorized to do this.")
+				} else {
+					HandleJoinChannel(sqlClient, message.Channel, cmdParams[1], cmdParams[2])
 				}
 
 			case "num":
