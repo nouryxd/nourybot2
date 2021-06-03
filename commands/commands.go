@@ -14,9 +14,6 @@ const (
 	ffzUrl  = "https://www.frankerfacez.com/emoticons/?q="
 )
 
-func connectDb() {
-}
-
 func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 	if len(message.Message) >= 2 {
 
