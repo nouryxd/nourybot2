@@ -1,15 +1,18 @@
 package commands
 
 import (
-	"database/sql"
 	"fmt"
 
 	"github.com/lyx0/nourybot-go/bot"
+	"github.com/lyx0/nourybot-go/modules"
 )
 
 // HandleJoinChannel inserts a new channel into the
 // database and joins it afterwards.
-func HandleJoinChannel(db *sql.DB, channel string, name string, id string) error {
+func HandleJoinChannel(channel string, name string, id string) error {
+	// Database client
+	db := modules.Connect()
+	defer db.Close()
 	q := "INSERT INTO `connectchannels` (Name, Platform, Platform_ID, Connect, Announce) VALUES (?, ?, ?, ?, ?)"
 	insert, err := db.Prepare(q)
 	defer insert.Close()
