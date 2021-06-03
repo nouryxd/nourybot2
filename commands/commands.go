@@ -6,7 +6,6 @@ import (
 
 	"github.com/gempir/go-twitch-irc/v2"
 	bot "github.com/lyx0/nourybot-go/bot"
-	"github.com/lyx0/nourybot-go/common"
 	util "github.com/lyx0/nourybot-go/util"
 )
 
@@ -19,7 +18,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 	if len(message.Message) >= 2 {
 
 		if message.Message[:2] == "()" {
-			common.CommandUsed()
+			util.CommandUsed()
 
 			// Split the first 3 characters off of the message, () and space
 			commandName := strings.SplitN(message.Message, " ", 3)[0][2:]

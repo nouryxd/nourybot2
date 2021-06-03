@@ -9,6 +9,22 @@ import (
 	"github.com/gempir/go-twitch-irc/v2"
 )
 
+var (
+	tempCommands = 0
+)
+
+// CommandUsed is called on every command and
+// Incremenents tempCommands by 1
+func CommandUsed() {
+	tempCommands++
+}
+
+// GetCommandsUsed gets tempCommands and
+// returns it. Only used in ping command
+func GetCommandsUsed() int {
+	return tempCommands
+}
+
 // StrGenerateRandomNumber generates a random number from
 // a given max value as a string
 func StrGenerateRandomNumber(max string) int {
