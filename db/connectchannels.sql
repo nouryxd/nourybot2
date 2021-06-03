@@ -1,4 +1,4 @@
-CREATE TABLE `connectchannels` (
+CREATE TABLE IF NOT EXISTS `connectchannels` (
   `Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Platform` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Platform_ID` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
