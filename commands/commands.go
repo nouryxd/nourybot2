@@ -146,11 +146,12 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 				} else {
 					HandleGame(message.Channel, cmdParams[1])
 				}
+
 			case "joinchannel":
 				if message.User.ID != "31437432" {
 					bot.SendTwitchMessage(message.Channel, "You're not authorized to do this.")
 				} else {
-					HandleJoinChannel(message.Channel, cmdParams[1], cmdParams[2])
+					HandleJoinChannel(message.Channel, cmdParams[1], cmdParams[2], cmdParams[3])
 				}
 
 			case "num":

@@ -7,9 +7,9 @@ import (
 	"github.com/lyx0/nourybot-go/modules"
 )
 
-// HandleJoinChannel inserts a new channel into the
+// HandleJoinChannel inserts a new given channel into the
 // database and joins it afterwards.
-func HandleJoinChannel(channel string, name string, id string) error {
+func HandleJoinChannel(channel string, name string, id string, announce string) error {
 	// Database client
 	db := modules.Connect()
 	// defer db.Close()
@@ -21,7 +21,7 @@ func HandleJoinChannel(channel string, name string, id string) error {
 		return err
 	}
 
-	_, err = insert.Exec(name, "Twitch", id, "true", "true")
+	_, err = insert.Exec(name, "Twitch", id, "true", announce)
 	if err != nil {
 		return err
 	}
