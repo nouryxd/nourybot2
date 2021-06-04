@@ -18,7 +18,7 @@ func HandleFill(channel string, emote string) {
 	// fmt.Println(emoteLength)
 
 	// Check how often the emote fits in a single message
-	repeatCount := (247 / emoteLength)
+	repeatCount := (500 / emoteLength)
 	// fmt.Println(repeatCount)
 
 	reply := strings.Repeat(fmt.Sprintf(emote+" "), repeatCount)
