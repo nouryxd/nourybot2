@@ -12,10 +12,10 @@ import (
 func HandleJoinChannel(channel string, name string, id string) error {
 	// Database client
 	db := modules.Connect()
-	defer db.Close()
+	// defer db.Close()
 	q := "INSERT INTO `connectchannels` (Name, Platform, Platform_ID, Connect, Announce) VALUES (?, ?, ?, ?, ?)"
 	insert, err := db.Prepare(q)
-	defer insert.Close()
+	// defer insert.Close()
 
 	if err != nil {
 		return err

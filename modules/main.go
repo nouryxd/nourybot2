@@ -10,8 +10,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// ConnectDatabase connects to my MySQL database
-// and calls JoinChannels and AnnounceJoin
+// ConnectDatabase connects to a given MySQL
+// database and returns a db
 func Connect() (db *sql.DB) {
 	envErr := godotenv.Load()
 	if envErr != nil {

@@ -167,6 +167,13 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 					HandleNumber(message.Channel, cmdParams[1])
 				}
 
+			case "partchannel":
+				if message.User.ID != "31437432" {
+					bot.SendTwitchMessage(message.Channel, "You're not authorized to do this.")
+				} else {
+					HandlePartChannel(message.Channel, cmdParams[1])
+				}
+
 			case "godoc":
 				if msgLen == 1 {
 					bot.SendTwitchMessage(message.Channel, "Usage: ()godoc <search parameter>")
