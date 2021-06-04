@@ -22,7 +22,7 @@ func HandleMessage(message twitch.PrivateMessage, nb *bot.Bot) {
 
 			// Split the first 3 characters off of the message, () and space
 			commandName := strings.SplitN(message.Message, " ", 3)[0][2:]
-			cmdParams := strings.SplitN(message.Message, " ", 99)
+			cmdParams := strings.SplitN(message.Message, " ", 500)
 
 			// Handle how many characters the message contains.
 			msgLen := len(strings.SplitN(message.Message, " ", -2))
