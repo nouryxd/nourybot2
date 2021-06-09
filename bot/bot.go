@@ -8,8 +8,6 @@ import (
 
 type Bot struct {
 	Client *twitch.Client
-	// Channels map[string]*Channel
-	UserID string
 	Uptime time.Time
 }
 
