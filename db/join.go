@@ -17,13 +17,13 @@ func JoinChannels(tc *twitch.Client, db *sql.DB) error {
 		log.Fatal(err)
 	}
 
-	// Get column names
+	// Get column names.
 	cols, err := rows.Columns()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Make a slice for the values
+	// Make a slice for the values.
 	values := make([]sql.RawBytes, len(cols))
 
 	scanArgs := make([]interface{}, len(values))
@@ -31,9 +31,9 @@ func JoinChannels(tc *twitch.Client, db *sql.DB) error {
 		scanArgs[i] = &values[i]
 	}
 
-	// Fetch rows
+	// Fetch rows.
 	for rows.Next() {
-		// Get RawBytes from data
+		// Get RawBytes from data.
 		err = rows.Scan(scanArgs...)
 		if err != nil {
 			log.Fatal(err)
@@ -48,7 +48,6 @@ func JoinChannels(tc *twitch.Client, db *sql.DB) error {
 			}
 		}
 		tc.Join(channel)
-		// bot.Nourybot.Client.Join(channel)
 		log.Info("Joined: #%s", channel)
 	}
 	return nil

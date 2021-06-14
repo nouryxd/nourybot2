@@ -10,10 +10,10 @@ import (
 )
 
 // ConnectDatabase connects to a given MySQL
-// database and returns a *sql.DB connection
+// database and returns a *sql.DB connection.
 func Connect(cfg *config.Config) (db *sql.DB) {
 
-	// Open a connection to the database
+	// Open a connection to the database.
 	db, err := sql.Open("mysql",
 		fmt.Sprintf("%s:%s@tcp(%s:3306)/%s",
 			cfg.DB_User,

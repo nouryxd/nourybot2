@@ -22,7 +22,7 @@ type Channel struct {
 }
 
 // Newbot returns a pointer to a Bot from a given
-// *config.Config and *twitch.Client
+// *config.Config and *twitch.Client.
 func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *Bot {
 	return &Bot{
 		cfg:          cfg,
@@ -31,13 +31,13 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) 
 	}
 }
 
-// newClient creates a new client from a  given *twitch.Client
+// newClient creates a new client from a  given *twitch.Client.
 func (b *Bot) newClient() *twitch.Client {
 	tc := twitch.NewClient(b.cfg.Username, b.cfg.Oauth)
 	return tc
 }
 
-// Connect connects to chat and listen for incoming messages
+// Connect connects to chat and listen for incoming messages.
 func (b *Bot) Connect() error {
 	tc := b.newClient()
 
@@ -60,7 +60,7 @@ func (b *Bot) Connect() error {
 		handlers.WhisperMessage(whisper, tc)
 	})
 
-	// Actually connect to chat and return the connection
+	// Actually connect to chat and return the connection.
 	err := tc.Connect()
 	if err != nil {
 		log.Fatal(err)

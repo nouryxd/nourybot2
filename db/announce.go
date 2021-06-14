@@ -51,7 +51,7 @@ func AnnounceJoin(tc *twitch.Client, db *sql.DB) error {
 	}
 
 	if err = rows.Err(); err != nil {
-		log.Fatal(err) // proper error handling instead of panic in your app
+		log.Fatal(err) // proper error handling instead of panic in your app.
 	}
 
 	return nil

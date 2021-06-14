@@ -9,19 +9,19 @@ import (
 )
 
 func main() {
-	// Load config containing client configurations
+	// Load config containing client configurations.
 	cfg := config.LoadConfig()
 
 	// Create a new twitch client with parameters specified from
-	// the config module
+	// the config module.
 	twitchClient := twitch.NewClient(cfg.Username, cfg.Oauth)
 
-	// Create a new sql connection
+	// Create a new sql connection.
 	sqlClient := db.Connect(cfg)
 	defer sqlClient.Close()
 
 	// Create New Bot with twitch client and
-	// config and connect to chat
+	// config and connect to chat.
 	bot := bot.NewBot(cfg, twitchClient, sqlClient)
 
 	// Connect
