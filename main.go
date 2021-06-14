@@ -8,7 +8,13 @@ import (
 
 func main() {
 	cfg := config.LoadConfig()
+
 	client := twitch.NewClient(cfg.Username, cfg.Oauth)
-	tbot := bot.NewBot(cfg, client)
-	tbot.Connect()
+
+	// client.OnPrivateMessage(func(message twitch.PrivateMessage) {
+	// 	handlers.HandlePrivateMessage(message)
+	// })
+	bot := bot.NewBot(cfg, client)
+	bot.Connect("nouryqt")
+
 }
