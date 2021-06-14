@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"database/sql"
 	"log"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
@@ -11,6 +12,7 @@ import (
 type Bot struct {
 	cfg          *config.Config
 	twitchClient *twitch.Client
+	sqlClient    *sql.DB
 	channels     map[string]*Channel
 }
 
@@ -26,10 +28,11 @@ var channels = map[string]*Channel{
 
 // func Newbot returns a pointer to a Bot from a given
 // *config.Config and *twitch.Client
-func NewBot(cfg *config.Config, twitchClient *twitch.Client) *Bot {
+func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *Bot {
 	return &Bot{
 		cfg:          cfg,
 		twitchClient: twitchClient,
+		sqlClient:    sqlClient,
 		channels:     channels,
 	}
 }
