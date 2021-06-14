@@ -2,6 +2,7 @@ package bot
 
 import (
 	"fmt"
+	"log"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot-go/config"
@@ -49,7 +50,7 @@ func (b *Bot) newClient() *twitch.Client {
 	return tc
 }
 
-func (b *Bot) Connect() {
+func (b *Bot) Connect() error {
 	tc := b.newClient()
 
 	// Connect to channels
@@ -65,8 +66,12 @@ func (b *Bot) Connect() {
 		handlers.PrivateMessage(message)
 	})
 
-	tc.Connect()
-
+	err := tc.Connect()
+	if err != nil {
+		log.Fatal(err)
+		return err
+	}
+	return err
 }
 
 // func (b *Bot) Connect() {
