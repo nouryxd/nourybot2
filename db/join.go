@@ -48,7 +48,7 @@ func JoinChannels(tc *twitch.Client, db *sql.DB) error {
 			}
 		}
 		tc.Join(channel)
-		log.Info("Joined: #%s", channel)
+		log.Infof("Joined: %#s", channel)
 	}
 	return nil
 }
