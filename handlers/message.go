@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/gempir/go-twitch-irc/v2"
+	log "github.com/sirupsen/logrus"
 )
 
 // PrivateMessage is called on each given incoming twitch.PrivateMessage
@@ -12,5 +11,5 @@ func PrivateMessage(message twitch.PrivateMessage, tc *twitch.Client) {
 	if message.Message == "xd" {
 		tc.Say(message.Channel, "xd")
 	}
-	fmt.Println(message)
+	log.Info(message)
 }

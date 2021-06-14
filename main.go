@@ -16,9 +16,9 @@ func main() {
 	// the config module
 	twitchClient := twitch.NewClient(cfg.Username, cfg.Oauth)
 
-	// Create a new sql connection with parameters specified from
-	// the config module
+	// Create a new sql connection
 	sqlClient := db.Connect(cfg)
+	defer sqlClient.Close()
 
 	// Create New Bot with twitch client and
 	// config and connect to chat

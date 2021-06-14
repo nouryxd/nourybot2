@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"fmt"
-
 	"github.com/gempir/go-twitch-irc/v2"
+	log "github.com/sirupsen/logrus"
 )
 
 // WhisperMessage is called on every given incoming twitch.WhisperMessage
@@ -12,5 +11,5 @@ func WhisperMessage(whisper twitch.WhisperMessage, tc *twitch.Client) {
 	if whisper.Message == "xd" {
 		tc.Whisper(whisper.User.Name, "xd")
 	}
-	fmt.Println(whisper)
+	log.Info(whisper)
 }

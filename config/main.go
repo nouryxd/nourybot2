@@ -24,7 +24,7 @@ func LoadConfig() *Config {
 	if err != nil {
 		log.Error("Error loading .env")
 	}
-	log.Info("Config loaded")
+
 	cfg := &Config{
 		Username: os.Getenv("TWITCH_USER"),
 		Oauth:    os.Getenv("TWITCH_PASS"),
@@ -35,5 +35,8 @@ func LoadConfig() *Config {
 		DB_Pass:  os.Getenv("DB_PASS"),
 		DB_Host:  os.Getenv("DB_HOST"),
 	}
+
+	log.Info("Config loaded")
+
 	return cfg
 }
