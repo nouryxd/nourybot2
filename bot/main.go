@@ -32,15 +32,15 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client) *Bot {
 	}
 }
 
-func (b *Bot) joinChannels() {
-	for i := range channels {
-		tc := b.newClient()
-		go tc.Connect()
-		tc.Join(i)
-		tc.Say(i, "xd")
-		fmt.Println("Joined :", i)
-	}
-}
+// func (b *Bot) joinChannels() {
+// 	for i := range channels {
+// 		tc := b.twitchClient
+// 		go tc.Connect()
+// 		tc.Join(i)
+// 		tc.Say(i, "xd")
+// 		fmt.Println("Joined :", i)
+// 	}
+// }
 
 // Create a new twitch client and return
 // the connection to the caller
@@ -52,18 +52,38 @@ func (b *Bot) newClient() *twitch.Client {
 func (b *Bot) Connect() {
 	tc := b.newClient()
 
-	// Handle an incoming chat message
+	// Connect to channels
+	for i := range channels {
+		tc.Join(i)
+		tc.Say(i, "xd")
+	}
+
+	// Chat message has been received, forwarding it to
+	// handlers.PrivateMessage
 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		fmt.Println("xdasdsd")
-		handlers.HandlePrivateMessage(message)
+		handlers.PrivateMessage(message)
 	})
-	b.joinChannels()
 
-	// Connect to the initial channels
-	// for i := range channels {
-	// 	tc.Join(i)
-	// 	tc.Say(i, "xd")
-	// }
-	// Connnect to Twitch chat
 	tc.Connect()
+
 }
+
+// func (b *Bot) Connect() {
+// 	tc := b.newClient()
+
+// 	b.joinChannels()
+
+// 	// Handle an incoming chat message
+// 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
+// 		fmt.Println("xdasdsd")
+// 		handlers.HandlePrivateMessage(message)
+// 	})
+// 	// Connect to the initial channels
+// 	// for i := range channels {
+// 	// 	tc.Join(i)
+// 	// 	tc.Say(i, "xd")
+// 	// }
+// 	// Connnect to Twitch chat
+// 	tc.Connect()
+// }
