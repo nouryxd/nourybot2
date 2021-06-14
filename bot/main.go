@@ -1,7 +1,6 @@
 package bot
 
 import (
-	"fmt"
 	"log"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
@@ -25,6 +24,8 @@ var channels = map[string]*Channel{
 	"nouryqt":  {Name: "nouryqt", Announce: false},
 }
 
+// func Newbot returns a pointer to a Bot from a given
+// *config.Config and *twitch.Client
 func NewBot(cfg *config.Config, twitchClient *twitch.Client) *Bot {
 	return &Bot{
 		cfg:          cfg,
@@ -33,16 +34,6 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client) *Bot {
 	}
 }
 
-// func (b *Bot) joinChannels() {
-// 	for i := range channels {
-// 		tc := b.twitchClient
-// 		go tc.Connect()
-// 		tc.Join(i)
-// 		tc.Say(i, "xd")
-// 		fmt.Println("Joined :", i)
-// 	}
-// }
-
 // Create a new twitch client and return
 // the connection to the caller
 func (b *Bot) newClient() *twitch.Client {
@@ -50,6 +41,7 @@ func (b *Bot) newClient() *twitch.Client {
 	return tc
 }
 
+// Connect to chat and listen for incoming messages
 func (b *Bot) Connect() error {
 	tc := b.newClient()
 
@@ -59,11 +51,16 @@ func (b *Bot) Connect() error {
 		tc.Say(i, "xd")
 	}
 
-	// Chat message has been received, forwarding it to
-	// handlers.PrivateMessage
+	// Chat message has been received, forwarding
+	// to handlers.PrivateMessage
 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
-		fmt.Println("xdasdsd")
 		handlers.PrivateMessage(message)
+	})
+
+	// Whisper has been received, forwarding
+	// to handlers.WhisperMessage
+	tc.OnWhisperMessage(func(whisper twitch.WhisperMessage) {
+		handlers.WhisperMessage(whisper)
 	})
 
 	err := tc.Connect()
@@ -73,22 +70,3 @@ func (b *Bot) Connect() error {
 	}
 	return err
 }
-
-// func (b *Bot) Connect() {
-// 	tc := b.newClient()
-
-// 	b.joinChannels()
-
-// 	// Handle an incoming chat message
-// 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
-// 		fmt.Println("xdasdsd")
-// 		handlers.HandlePrivateMessage(message)
-// 	})
-// 	// Connect to the initial channels
-// 	// for i := range channels {
-// 	// 	tc.Join(i)
-// 	// 	tc.Say(i, "xd")
-// 	// }
-// 	// Connnect to Twitch chat
-// 	tc.Connect()
-// }
