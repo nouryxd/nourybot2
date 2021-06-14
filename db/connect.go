@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/lyx0/nourybot-go/config"
+	"github.com/lyx0/nourybot2/config"
 	log "github.com/sirupsen/logrus"
 )
 

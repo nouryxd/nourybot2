@@ -4,9 +4,9 @@ import (
 	"database/sql"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
-	"github.com/lyx0/nourybot-go/config"
-	"github.com/lyx0/nourybot-go/db"
-	"github.com/lyx0/nourybot-go/handlers"
+	"github.com/lyx0/nourybot2/config"
+	"github.com/lyx0/nourybot2/db"
+	"github.com/lyx0/nourybot2/handlers"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -14,7 +14,6 @@ type Bot struct {
 	cfg          *config.Config
 	twitchClient *twitch.Client
 	sqlClient    *sql.DB
-	channels     map[string]*Channel
 }
 
 type Channel struct {

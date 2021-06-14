@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gempir/go-twitch-irc/v2"
-	"github.com/lyx0/nourybot-go/bot"
-	"github.com/lyx0/nourybot-go/config"
-	"github.com/lyx0/nourybot-go/db"
+	"github.com/lyx0/nourybot2/bot"
+	"github.com/lyx0/nourybot2/config"
+	"github.com/lyx0/nourybot2/db"
 	log "github.com/sirupsen/logrus"
 )
 
