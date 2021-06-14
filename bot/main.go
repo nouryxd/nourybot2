@@ -57,13 +57,13 @@ func (b *Bot) Connect() error {
 	// Chat message has been received, forwarding
 	// to handlers.PrivateMessage
 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
-		handlers.PrivateMessage(message)
+		handlers.PrivateMessage(message, tc)
 	})
 
 	// Whisper has been received, forwarding
 	// to handlers.WhisperMessage
 	tc.OnWhisperMessage(func(whisper twitch.WhisperMessage) {
-		handlers.WhisperMessage(whisper)
+		handlers.WhisperMessage(whisper, tc)
 	})
 
 	err := tc.Connect()
