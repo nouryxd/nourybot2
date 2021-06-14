@@ -19,7 +19,8 @@ func Connect() (db *sql.DB) {
 			cfg.DB_User,
 			cfg.DB_Pass,
 			cfg.DB_Host,
-			cfg.DB_Name))
+			cfg.DB_Name,
+		))
 
 	if err != nil {
 		log.Fatalf("Couldn't establish database connection: %s", err)
