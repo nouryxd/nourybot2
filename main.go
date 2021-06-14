@@ -13,15 +13,19 @@ func main() {
 	// Load config containing client configurations
 	cfg := config.LoadConfig()
 
-	// Create a new twitch with parameters specified from
+	// Create a new twitch client with parameters specified from
 	// the config module
 	twitchClient := twitch.NewClient(cfg.Username, cfg.Oauth)
 
+	// Create a new sql connection with parameters specified from
+	// the config module
 	sqlClient := db.Connect()
 
-	// Creat New Bot with twitch client and
+	// Create New Bot with twitch client and
 	// config and connect to chat
 	bot := bot.NewBot(cfg, twitchClient, sqlClient)
+
+	// Connect
 	err := bot.Connect()
 	if err != nil {
 		log.Fatal("Couldn't establish connection", err)

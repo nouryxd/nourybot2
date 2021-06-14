@@ -10,7 +10,7 @@ import (
 )
 
 // ConnectDatabase connects to a given MySQL
-// database and returns a db
+// database and returns a *sql.DB connection
 func Connect() (db *sql.DB) {
 	cfg := config.LoadConfig()
 

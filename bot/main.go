@@ -2,6 +2,7 @@ package bot
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
@@ -26,7 +27,7 @@ var channels = map[string]*Channel{
 	"nouryqt":  {Name: "nouryqt", Announce: false},
 }
 
-// func Newbot returns a pointer to a Bot from a given
+// Newbot returns a pointer to a Bot from a given
 // *config.Config and *twitch.Client
 func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *Bot {
 	return &Bot{
@@ -37,14 +38,13 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) 
 	}
 }
 
-// Create a new twitch client and return
-// the connection to the caller
+// newClient creates a new client from a  given *twitch.Client
 func (b *Bot) newClient() *twitch.Client {
 	tc := twitch.NewClient(b.cfg.Username, b.cfg.Oauth)
 	return tc
 }
 
-// Connect to chat and listen for incoming messages
+// Connect connects to chat and listen for incoming messages
 func (b *Bot) Connect() error {
 	tc := b.newClient()
 
@@ -52,20 +52,22 @@ func (b *Bot) Connect() error {
 	for i := range channels {
 		tc.Join(i)
 		tc.Say(i, "xd")
+		fmt.Printf("Connected to: #%s\n", i)
 	}
 
-	// Chat message has been received, forwarding
-	// to handlers.PrivateMessage
+	// OnPrivateMessage forwards the received twitch.PrivateMessage
+	// to the appropiate PrivateMessage handler function.
 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		handlers.PrivateMessage(message, tc)
 	})
 
-	// Whisper has been received, forwarding
-	// to handlers.WhisperMessage
+	// OnWhisperMessage forwards the received twitch.WhisperMessage
+	// to the appropiate WhisperMessage handler function.
 	tc.OnWhisperMessage(func(whisper twitch.WhisperMessage) {
 		handlers.WhisperMessage(whisper, tc)
 	})
 
+	// Actually connect to chat and return the connection
 	err := tc.Connect()
 	if err != nil {
 		log.Fatal(err)
