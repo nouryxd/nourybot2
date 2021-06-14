@@ -32,8 +32,13 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client) *Bot {
 	}
 }
 
-func (b *Bot) Connect() {
+func (b *Bot) newClient() *twitch.Client {
 	tc := twitch.NewClient(b.cfg.Username, b.cfg.Oauth)
+	return tc
+}
+
+func (b *Bot) Connect() {
+	tc := b.newClient()
 
 	// Connect to the initial channels
 	tc.OnPrivateMessage(func(message twitch.PrivateMessage) {
