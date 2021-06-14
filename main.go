@@ -1,12 +1,11 @@
 package main
 
 import (
-	"log"
-
 	"github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot-go/bot"
 	"github.com/lyx0/nourybot-go/config"
 	"github.com/lyx0/nourybot-go/db"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -19,7 +18,7 @@ func main() {
 
 	// Create a new sql connection with parameters specified from
 	// the config module
-	sqlClient := db.Connect()
+	sqlClient := db.Connect(cfg)
 
 	// Create New Bot with twitch client and
 	// config and connect to chat

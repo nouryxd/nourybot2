@@ -1,10 +1,10 @@
 package config
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/joho/godotenv"
+	log "github.com/sirupsen/logrus"
 )
 
 type Config struct {
@@ -18,11 +18,13 @@ type Config struct {
 	DB_Host  string
 }
 
+// LoadConfig returns a *Config with
 func LoadConfig() *Config {
 	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error loading .env")
+		log.Error("Error loading .env")
 	}
+	log.Info("Config loaded")
 	cfg := &Config{
 		Username: os.Getenv("TWITCH_USER"),
 		Oauth:    os.Getenv("TWITCH_PASS"),

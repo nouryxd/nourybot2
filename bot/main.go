@@ -2,12 +2,11 @@ package bot
 
 import (
 	"database/sql"
-	"fmt"
-	"log"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot-go/config"
 	"github.com/lyx0/nourybot-go/handlers"
+	log "github.com/sirupsen/logrus"
 )
 
 type Bot struct {
@@ -52,7 +51,7 @@ func (b *Bot) Connect() error {
 	for i := range channels {
 		tc.Join(i)
 		tc.Say(i, "xd")
-		fmt.Printf("Connected to: #%s\n", i)
+		log.Printf("Connected to #%s\n", i)
 	}
 
 	// OnPrivateMessage forwards the received twitch.PrivateMessage
@@ -71,6 +70,7 @@ func (b *Bot) Connect() error {
 	err := tc.Connect()
 	if err != nil {
 		log.Fatal(err)
+		// log.Fatal(err)
 		return err
 	}
 	return err
