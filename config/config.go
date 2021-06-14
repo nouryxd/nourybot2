@@ -18,7 +18,7 @@ type Config struct {
 	DB_Host  string
 }
 
-// LoadConfig returns a *Config.
+// LoadConfig returns a *Config to the caller.
 func LoadConfig() *Config {
 	err := godotenv.Load()
 	if err != nil {
