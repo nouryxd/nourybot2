@@ -23,17 +23,17 @@ func Connect(cfg *config.Config) (db *sql.DB) {
 		))
 
 	if err != nil {
-		log.Fatalf("Couldn't establish database connection: %s", err)
+		log.Fatal("Couldn't establish database connection: %s", err)
 	}
 
 	// Need to db.Ping() to actually check if the connection
 	// was successful.
 	err = db.Ping()
 	if err != nil {
-		log.Fatalf("Couldn't establish database connection: %s", err)
+		log.Fatal("Couldn't establish database connection: %s", err)
 	}
 
-	log.Println("Connected to database")
+	log.Info("Connected to database")
 
 	return db
 }

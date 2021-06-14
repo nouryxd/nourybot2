@@ -5,6 +5,7 @@ import (
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot-go/config"
+	"github.com/lyx0/nourybot-go/db"
 	"github.com/lyx0/nourybot-go/handlers"
 	log "github.com/sirupsen/logrus"
 )
@@ -21,11 +22,6 @@ type Channel struct {
 	Announce bool
 }
 
-var channels = map[string]*Channel{
-	"nourybot": {Name: "nourybot", Announce: false},
-	"nouryqt":  {Name: "nouryqt", Announce: false},
-}
-
 // Newbot returns a pointer to a Bot from a given
 // *config.Config and *twitch.Client
 func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *Bot {
@@ -33,7 +29,6 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) 
 		cfg:          cfg,
 		twitchClient: twitchClient,
 		sqlClient:    sqlClient,
-		channels:     channels,
 	}
 }
 
@@ -47,12 +42,12 @@ func (b *Bot) newClient() *twitch.Client {
 func (b *Bot) Connect() error {
 	tc := b.newClient()
 
-	// Connect to channels
-	for i := range channels {
-		tc.Join(i)
-		tc.Say(i, "xd")
-		log.Printf("Connected to #%s\n", i)
-	}
+	// Get a list of channels from the database to join.
+	db.JoinChannels(tc, b.sqlClient)
+
+	// Get a list of channels from the database in which
+	// we should announce when we join.
+	db.AnnounceJoin(tc, b.sqlClient)
 
 	// OnPrivateMessage forwards the received twitch.PrivateMessage
 	// to the appropiate PrivateMessage handler function.
