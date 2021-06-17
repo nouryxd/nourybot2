@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gempir/go-twitch-irc/v2"
-	"github.com/lyx0/nourybot2/bot"
+	"github.com/lyx0/nourybot2/client"
 	"github.com/lyx0/nourybot2/config"
 	"github.com/lyx0/nourybot2/db"
 	log "github.com/sirupsen/logrus"
@@ -22,12 +22,16 @@ func main() {
 
 	// Create New Bot with twitch client and
 	// config and connect to chat.
-	bot := bot.NewBot(cfg, twitchClient, sqlClient)
+	twitchBot := client.NewTwitchBot(cfg, twitchClient, sqlClient)
 
-	// Connect
-	err := bot.Connect()
+	// Connect to Discord
+	go func() {
+		client.DiscordConnect()
+	}()
+
+	// Connect to Twitch
+	err := twitchBot.Connect()
 	if err != nil {
-		log.Fatal("Couldn't establish connection", err)
+		log.Fatal("Couldn't establish Twitch connection", err)
 	}
-
 }

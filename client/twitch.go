@@ -1,7 +1,10 @@
-package bot
+package client
 
 import (
 	"database/sql"
+	"os"
+	"os/signal"
+	"syscall"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot2/config"
@@ -10,7 +13,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type Bot struct {
+type TwitchBot struct {
 	cfg          *config.Config
 	twitchClient *twitch.Client
 	sqlClient    *sql.DB
@@ -23,8 +26,8 @@ type Channel struct {
 
 // Newbot returns a pointer to a Bot from a given
 // *config.Config and *twitch.Client.
-func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *Bot {
-	return &Bot{
+func NewTwitchBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) *TwitchBot {
+	return &TwitchBot{
 		cfg:          cfg,
 		twitchClient: twitchClient,
 		sqlClient:    sqlClient,
@@ -32,21 +35,21 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client, sqlClient *sql.DB) 
 }
 
 // newClient creates a new client from a  given *twitch.Client.
-func (b *Bot) newClient() *twitch.Client {
-	tc := twitch.NewClient(b.cfg.Username, b.cfg.Oauth)
+func (tb *TwitchBot) newTwitchClient() *twitch.Client {
+	tc := twitch.NewClient(tb.cfg.Username, tb.cfg.Oauth)
 	return tc
 }
 
 // Connect connects to chat and listen for incoming messages.
-func (b *Bot) Connect() error {
-	tc := b.newClient()
+func (tb *TwitchBot) Connect() error {
+	tc := tb.newTwitchClient()
 
 	// Get a list of channels from the database to join.
-	db.JoinChannels(tc, b.sqlClient)
+	db.JoinChannels(tc, tb.sqlClient)
 
 	// Get a list of channels from the database in which
 	// we should announce when we join.
-	db.AnnounceJoin(tc, b.sqlClient)
+	db.AnnounceJoin(tc, tb.sqlClient)
 
 	// OnPrivateMessage forwards the received twitch.PrivateMessage
 	// to the appropiate PrivateMessage handler function.
@@ -67,5 +70,12 @@ func (b *Bot) Connect() error {
 		// log.Fatal(err)
 		return err
 	}
+
+	sc := make(chan os.Signal, 1)
+	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
+	<-sc
+
+	tc.Disconnect()
+
 	return err
 }
