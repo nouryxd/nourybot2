@@ -2,9 +2,6 @@ package client
 
 import (
 	"database/sql"
-	"os"
-	"os/signal"
-	"syscall"
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot2/config"
@@ -70,12 +67,6 @@ func (tb *TwitchBot) Connect() error {
 		// log.Fatal(err)
 		return err
 	}
-
-	sc := make(chan os.Signal, 1)
-	signal.Notify(sc, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
-	<-sc
-
-	tc.Disconnect()
 
 	return err
 }

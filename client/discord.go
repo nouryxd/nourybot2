@@ -8,7 +8,7 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func DiscordConnect() {
+func DiscordConnect() *discordgo.Session {
 	DC_AUTH := os.Getenv("DC_AUTH")
 	dcb, err := discordgo.New("Bot " + DC_AUTH)
 	if err != nil {
@@ -27,5 +27,5 @@ func DiscordConnect() {
 		log.Fatal("Error opening connection: ", err)
 	}
 
-	log.Info("Connected to Discord!")
+	return dcb
 }
