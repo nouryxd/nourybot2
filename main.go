@@ -44,7 +44,7 @@ func main() {
 	}()
 
 	go func() {
-		log.Info("Starting connection to Discord")
+		log.Info("Connecting to Discord")
 
 		err = bot.ConnectDiscord()
 		if err != nil {
@@ -56,10 +56,11 @@ func main() {
 	wg.Wait()
 
 	c := make(chan os.Signal, 1)
-	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, os.Interrupt, os.Kill)
+	signal.Notify(c, syscall.SIGINT, syscall.SIGTERM, os.Interrupt)
 	<-c
 
 	sig := <-c
 	log.Info("Got signal:", sig)
+	bot.CloseConnection()
 	os.Exit(0)
 }
