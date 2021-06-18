@@ -2,19 +2,15 @@ package handlers
 
 import (
 	"github.com/bwmarrin/discordgo"
-	"github.com/lyx0/nourybot2/commands"
+	log "github.com/sirupsen/logrus"
 )
 
 func DiscordMessage(s *discordgo.Session, m *discordgo.MessageCreate) {
-
-	// Don't act on our own messages
-	if m.Message.Author.ID == s.State.User.ID {
-		return
-	}
+	log.Info(m.Message)
 	if m.Content == "!ping" {
-		commands.Ping(s, m)
+		s.ChannelMessageSend(m.ChannelID, "Pong!")
 	}
 	if m.Content == "!pong" {
-		commands.Pong(s, m)
+		s.ChannelMessageSend(m.ChannelID, "Ping!")
 	}
 }
