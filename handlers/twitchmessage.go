@@ -5,6 +5,9 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func TwitchMessage(message twitch.PrivateMessage) {
+func TwitchMessage(message twitch.PrivateMessage, tc *twitch.Client) {
 	log.Info(message)
+	if message.Message == "xd" {
+		tc.Say(message.Channel, "xd")
+	}
 }

@@ -53,9 +53,14 @@ func (b *Bot) ConnectTwitch() error {
 
 	twitchClient.Join("nouryqt")
 	twitchClient.Say("nouryqt", "xd")
-	twitchClient.OnPrivateMessage(b.twitchMessage)
 
-	twitchClient.OnWhisperMessage(b.twitchWhisper)
+	twitchClient.OnPrivateMessage(func(message twitch.PrivateMessage) {
+		b.twitchMessage(message, twitchClient)
+	})
+
+	twitchClient.OnWhisperMessage(func(whisper twitch.WhisperMessage) {
+		b.twitchWhisper(whisper, twitchClient)
+	})
 
 	err := twitchClient.Connect()
 	if err != nil {
@@ -84,16 +89,17 @@ func (b *Bot) ConnectDiscord() error {
 	return err
 }
 
-func (b *Bot) twitchMessage(message twitch.PrivateMessage) {
-	handlers.TwitchMessage(message)
+func (b *Bot) twitchMessage(message twitch.PrivateMessage, tc *twitch.Client) {
+	handlers.TwitchMessage(message, tc)
 }
 
 // func (b *Bot) handleCommand(message twitch.PrivateMessage) {
 // 	commands.HandleCommand(message)
 // }
 
-func (b *Bot) twitchWhisper(whisper twitch.WhisperMessage) {
+func (b *Bot) twitchWhisper(whisper twitch.WhisperMessage, tc *twitch.Client) {
 	// handlers.twitchWhisper(whisper)
+	handlers.TwitchWhisper(whisper, tc)
 	log.Info(whisper)
 }
 
@@ -101,3 +107,7 @@ func (b *Bot) closeConnection() {
 	b.twitchClient.Disconnect()
 	b.discordClient.Close()
 }
+
+// func (b *Bot) Say(channel string, message string) {
+// 	b.twitchClient.Say(channel, message)
+// }

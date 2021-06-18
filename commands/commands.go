@@ -7,4 +7,6 @@ import (
 
 func HandleCommand(message twitch.PrivateMessage) {
 	log.Info(message)
+	if message.Message == "xd" {
+	}
 }

@@ -33,7 +33,7 @@ func main() {
 	wg.Add(2)
 
 	go func() {
-		log.Info("Starting connection to Twitch")
+		log.Info("Connecting to Twitch")
 
 		err = bot.ConnectTwitch()
 		if err != nil {
