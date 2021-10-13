@@ -5,7 +5,8 @@ import (
 
 	twitch "github.com/gempir/go-twitch-irc/v2"
 	"github.com/lyx0/nourybot2/config"
-	"github.com/lyx0/nourybot2/db"
+
+	// "github.com/lyx0/nourybot2/db"
 	"github.com/lyx0/nourybot2/handlers"
 	log "github.com/sirupsen/logrus"
 )
@@ -20,7 +21,7 @@ func NewBot(cfg *config.Config, twitchClient *twitch.Client,  sqlClient *sql.DB)
 	return &Bot{
 		cfg:           cfg,
 		twitchClient:  twitchClient,
-		sqlClient:     sqlClient,
+		// sqlClient:     sqlClient,
 	}
 }
 
@@ -34,10 +35,10 @@ func (b *Bot) ConnectTwitch() error {
 	log.Info("xd")
 	twitchClient := b.newTwitchClient()
 
-	db.JoinChannels(twitchClient, b.sqlClient)
-	db.AnnounceJoin(twitchClient, b.sqlClient)
-	// twitchClient.Join("nouryqt")
-	// twitchClient.Say("nouryqt", "xd")
+	// db.JoinChannels(twitchClient, b.sqlClient)
+	// db.AnnounceJoin(twitchClient, b.sqlClient)
+	twitchClient.Join("nouryqt")
+	twitchClient.Say("nouryqt", "xd")
 
 	twitchClient.OnPrivateMessage(func(message twitch.PrivateMessage) {
 		b.twitchMessage(message, twitchClient)
